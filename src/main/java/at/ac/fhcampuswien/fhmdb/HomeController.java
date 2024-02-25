@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
 
 public class HomeController implements Initializable {
     @FXML
@@ -50,6 +52,7 @@ public class HomeController implements Initializable {
         // either set event handlers in the fxml file (onAction) or add them here
 
         // Sort button example:
+        /*
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
                 // TODO sort observableMovies ascending
@@ -59,7 +62,11 @@ public class HomeController implements Initializable {
                 sortBtn.setText("Sort (asc)");
             }
         });
+*/
 
+    }
 
+    public void clickSortBtn(ActionEvent actionEvent) {
+        System.out.println("test");
     }
 }
