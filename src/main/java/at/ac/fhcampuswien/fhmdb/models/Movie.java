@@ -28,6 +28,17 @@ public class Movie {
         return genresList;
     }
 
+    public String getGenresListAsString(){
+        StringBuilder out=new StringBuilder();
+
+        for (Genres g : genresList) {
+            out.append(g.toString()+", ");
+        }
+        out.delete(out.length()-2,out.length());
+
+        return out.toString();
+    }
+
     public static List<Movie> initializeMovies(){
         List<Movie> movies = new ArrayList<>();
         movies.add(new Movie("Avatar", "A paraplegic ...", new ArrayList<Genres>(List.of(Genres.ACTION,Genres.ADVENTURE))));
