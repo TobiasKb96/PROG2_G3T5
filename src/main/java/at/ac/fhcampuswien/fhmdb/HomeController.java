@@ -69,4 +69,10 @@ public class HomeController implements Initializable {
     public void clickSortBtn(ActionEvent actionEvent) {
         System.out.println("test");
     }
+
+    //for testing JUnit
+    public int addOne(int n){
+        return n + 1;
+    }
+
 }
