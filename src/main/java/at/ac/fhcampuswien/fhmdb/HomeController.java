@@ -51,6 +51,7 @@ public class HomeController implements Initializable {
 
         // TODO add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
+        genreComboBox.getItems().add("empty Filter");
         genreComboBox.getItems().addAll(Genres.values());
         /*JFXComboBox.valueProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -66,10 +67,13 @@ public class HomeController implements Initializable {
         // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
-                // TODO sort observableMovies ascending
+                // TODO sort Julian observableMovies ascending
+                //observableMovies.sort();
+                observableMovies.remove(0,2);
                 sortBtn.setText("Sort (desc)");
             } else {
-                // TODO sort observableMovies descending
+                // TODO Julian sort observableMovies descending
+                //observableMovies.sort();
                 sortBtn.setText("Sort (asc)");
             }
         });
@@ -81,7 +85,14 @@ public class HomeController implements Initializable {
     public int addOne(int n){
         return n + 1;
     }
+    //TODO Julian function to filter with search bar
+    private void textFilter(String text){
 
+    }
+    //TODO Konstantin
+    private void genreFilter(Genres genre){
+
+    }
 
 
 }
