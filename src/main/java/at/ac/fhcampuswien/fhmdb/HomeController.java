@@ -90,8 +90,8 @@ public class HomeController implements Initializable {
 
     }
     //TODO Konstantin
-    private void genreFilter(Genres genre){
-
+    public void genreFilter(Genres genre,List<Movie> movieList){
+        movieList.removeIf(m -> !(m.getGenresList().contains(genre)));
     }
 
 
