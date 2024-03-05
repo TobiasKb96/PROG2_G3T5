@@ -78,8 +78,9 @@ public class HomeController implements Initializable {
 
             selectedGenre = (Genres) genreComboBox.getValue();
             //apply filter
+            genreFilter(selectedGenre,observableMovies);
 
-            movieListView.setItems(observableMovies);
+
         });
 
 
