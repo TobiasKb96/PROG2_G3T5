@@ -83,7 +83,6 @@ public class HomeController implements Initializable {
                 genreFilter(selectedGenre,observableMovies);
             }
             if(searchField.getText() != null) textFilter(searchField.getText(),observableMovies);
-            System.out.println(searchField.getText());
         });
 
 
