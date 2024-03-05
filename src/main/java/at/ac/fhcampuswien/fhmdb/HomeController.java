@@ -53,7 +53,7 @@ public class HomeController implements Initializable {
 
         // TODO add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
-        genreComboBox.getItems().add("empty Filter");
+        genreComboBox.getItems().add("No Filter");
         genreComboBox.getItems().addAll(Genres.values());
 
         // TODO add event handlers to buttons and call the regarding methods
@@ -77,11 +77,13 @@ public class HomeController implements Initializable {
             observableMovies.clear();
             observableMovies.addAll(allMovies);
 
-            selectedGenre = (Genres) genreComboBox.getValue();
-            //apply filter
-            genreFilter(selectedGenre,observableMovies);
-
-
+            if(genreComboBox.getValue()!="No Filter" && genreComboBox.getValue()!=null){
+                selectedGenre = (Genres) genreComboBox.getValue();
+                //apply filter
+                genreFilter(selectedGenre,observableMovies);
+            }
+            if(searchField.getText() != null) textFilter(searchField.getText(),observableMovies);
+            System.out.println(searchField.getText());
         });
 
 
