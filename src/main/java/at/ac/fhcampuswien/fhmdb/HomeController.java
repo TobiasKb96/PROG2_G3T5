@@ -85,10 +85,15 @@ public class HomeController implements Initializable {
     public int addOne(int n){
         return n + 1;
     }
-    //TODO Julian function to filter with search bar
-    private void textFilter(String text){
 
+
+    //TODO Julian function to filter with search bar
+    public void textFilter(String searchText, List<Movie> movieList){
+        String text = searchText.toLowerCase();
+        movieList.removeIf(movie ->
+                !(movie.getDescription().toLowerCase().contains(text) || movie.getTitle().toLowerCase().contains(text)));
     }
+
     //TODO Konstantin
     public void genreFilter(Genres genre,List<Movie> movieList){
         movieList.removeIf(m -> !(m.getGenresList().contains(genre)));
