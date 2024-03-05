@@ -16,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -68,12 +70,11 @@ public class HomeController implements Initializable {
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
                 // TODO sort Julian observableMovies ascending
-                //observableMovies.sort();
-                observableMovies.remove(0,2);
+                sortMovies_asc(observableMovies);
                 sortBtn.setText("Sort (desc)");
             } else {
                 // TODO Julian sort observableMovies descending
-                //observableMovies.sort();
+                sortMovies_dsc(observableMovies);
                 sortBtn.setText("Sort (asc)");
             }
         });
@@ -99,5 +100,16 @@ public class HomeController implements Initializable {
         movieList.removeIf(m -> !(m.getGenresList().contains(genre)));
     }
 
+    public void sortMovies_asc(List<Movie> movieList){
+        observableMovies.sort((movie1, movie2) -> movie1.getTitle().compareToIgnoreCase(movie2.getTitle()));
+        //Movie List only for test
+        movieList.sort((movie1, movie2) -> movie1.getTitle().compareToIgnoreCase(movie2.getTitle()));
+    }
+
+    public void sortMovies_dsc(List<Movie> movieList){
+        observableMovies.sort((movie1, movie2) -> movie2.getTitle().compareToIgnoreCase(movie1.getTitle()));
+        //Movie List only for test
+        movieList.sort((movie1, movie2) -> movie2.getTitle().compareToIgnoreCase(movie1.getTitle()));
+    }
 
 }
