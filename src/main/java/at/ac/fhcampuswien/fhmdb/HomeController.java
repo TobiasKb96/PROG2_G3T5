@@ -101,14 +101,10 @@ public class HomeController implements Initializable {
     }
 
     public void sortMovies_asc(List<Movie> movieList){
-        observableMovies.sort((movie1, movie2) -> movie1.getTitle().compareToIgnoreCase(movie2.getTitle()));
-        //Movie List only for test
         movieList.sort((movie1, movie2) -> movie1.getTitle().compareToIgnoreCase(movie2.getTitle()));
     }
 
     public void sortMovies_dsc(List<Movie> movieList){
-        observableMovies.sort((movie1, movie2) -> movie2.getTitle().compareToIgnoreCase(movie1.getTitle()));
-        //Movie List only for test
         movieList.sort((movie1, movie2) -> movie2.getTitle().compareToIgnoreCase(movie1.getTitle()));
     }
 
