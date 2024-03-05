@@ -53,13 +53,6 @@ public class HomeController implements Initializable {
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().add("empty Filter");
         genreComboBox.getItems().addAll(Genres.values());
-        /*JFXComboBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue ov, String t, String t1) {
-                selectedGenre = Genres.valueOf(t1);
-            }
-        });
-        */
 
         // TODO add event handlers to buttons and call the regarding methods
         // either set event handlers in the fxml file (onAction) or add them here
@@ -78,6 +71,17 @@ public class HomeController implements Initializable {
             }
         });
 
+        //Reset the observable Movies
+        searchBtn.setOnAction(actionEvent -> {
+            observableMovies.clear();
+            observableMovies.addAll(allMovies);
+
+            selectedGenre = (Genres) genreComboBox.getValue();
+            //apply filter
+
+            movieListView.setItems(observableMovies);
+        });
+
 
     }
 
@@ -93,6 +97,4 @@ public class HomeController implements Initializable {
     private void genreFilter(Genres genre){
 
     }
-
-
 }
