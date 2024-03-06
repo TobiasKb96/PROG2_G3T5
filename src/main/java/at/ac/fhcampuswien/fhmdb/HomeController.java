@@ -42,7 +42,7 @@ public class HomeController implements Initializable {
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
 
-    private Genres selectedGenre;
+    protected Genres selectedGenre;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         observableMovies.addAll(allMovies);         // add dummy data to observable list
@@ -53,7 +53,6 @@ public class HomeController implements Initializable {
 
         // TODO add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
-        genreComboBox.getItems().add("No Filter");
         genreComboBox.getItems().addAll(Genres.values());
 
         // TODO add event handlers to buttons and call the regarding methods
@@ -74,19 +73,21 @@ public class HomeController implements Initializable {
 
         //Reset the observable Movies
         searchBtn.setOnAction(actionEvent -> {
-            observableMovies.clear();
-            observableMovies.addAll(allMovies);
-
-            if(genreComboBox.getValue()!="No Filter" && genreComboBox.getValue()!=null){
-                selectedGenre = (Genres) genreComboBox.getValue();
-                //apply filter
-                genreFilter(selectedGenre,observableMovies);
-            }
-            if(searchField.getText() != null) textFilter(searchField.getText(),observableMovies);
+            searchBtnAction(observableMovies, (Genres) genreComboBox.getValue(),searchField.getText());
         });
-
-
     }
+
+    protected void searchBtnAction(List<Movie> movieList, Genres genreToFilter , String searchText){
+        movieList.clear();
+        movieList.addAll(Movie.initializeMovies());
+
+        if(genreToFilter != Genres.No_Filter && genreToFilter != null){
+            //apply filter
+            genreFilter(genreToFilter,movieList);
+        }
+        if(searchText != null) textFilter(searchText,movieList);
+    }
+
 
     //for testing JUnit
     public int addOne(int n){

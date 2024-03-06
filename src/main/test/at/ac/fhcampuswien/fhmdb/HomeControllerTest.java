@@ -157,5 +157,20 @@ class HomeControllerTest {
         //then
         assertEquals(expectedList, actualList);
     }
+
+    @Test
+    void test_for_searchBtnAction(){
+        //given
+        HomeController controller =new HomeController();
+        List<Movie> actualList = Movie.initializeMovies();
+        Genres genreToFilter = Genres.ACTION;
+        List<Movie> expectedList = new ArrayList<>();
+        expectedList.add(new Movie("Avatar", "A paraplegic ...", new ArrayList<Genres>(List.of(Genres.ACTION, Genres.ADVENTURE))));        //when
+        //when
+        controller.searchBtnAction(actualList, genreToFilter, "Ava");
+        //then
+        assertEquals(expectedList, actualList);
+    }
+
 }
 
