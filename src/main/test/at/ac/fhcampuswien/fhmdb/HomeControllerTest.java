@@ -172,5 +172,18 @@ class HomeControllerTest {
         assertEquals(expectedList, actualList);
     }
 
+    @Test
+    void test_for_searchBtnAction_null_input(){
+        //given
+        HomeController controller =new HomeController();
+        List<Movie> actualList = Movie.initializeMovies();
+        Genres genreToFilter = null;
+        List<Movie> expectedList = Movie.initializeMovies();
+        //when
+        controller.searchBtnAction(actualList, genreToFilter, null);
+        //then
+        assertEquals(expectedList, actualList);
+    }
+
 }
 

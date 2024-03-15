@@ -46,7 +46,7 @@ public class HomeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         observableMovies.addAll(allMovies);         // add dummy data to observable list
-
+        sortMovies_asc(observableMovies);
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
         movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
@@ -77,7 +77,7 @@ public class HomeController implements Initializable {
         });
     }
 
-    protected void searchBtnAction(List<Movie> movieList, Genres genreToFilter , String searchText){
+    public void searchBtnAction(List<Movie> movieList, Genres genreToFilter , String searchText){
         movieList.clear();
         movieList.addAll(Movie.initializeMovies());
 
@@ -86,12 +86,6 @@ public class HomeController implements Initializable {
             genreFilter(genreToFilter,movieList);
         }
         if(searchText != null) textFilter(searchText,movieList);
-    }
-
-
-    //for testing JUnit
-    public int addOne(int n){
-        return n + 1;
     }
 
 
