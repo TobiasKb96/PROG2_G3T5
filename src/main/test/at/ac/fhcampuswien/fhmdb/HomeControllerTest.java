@@ -74,11 +74,10 @@ class HomeControllerTest {
         //given
         HomeController controller =new HomeController();
         List<Movie> actualList = Movie.initializeMovies();
-        List<Movie> expectedList = new ArrayList<>();
-        expectedList = actualList;
+        List<Movie> expectedList = new ArrayList<>(actualList);
 
         //when
-        controller.textFilter("", actualList);
+        actualList = controller.textFilter("", actualList);
 
         //then
         assertEquals(expectedList, actualList);

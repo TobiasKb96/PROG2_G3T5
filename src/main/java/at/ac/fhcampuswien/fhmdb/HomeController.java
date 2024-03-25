@@ -89,10 +89,12 @@ public class HomeController implements Initializable {
 
 
     //TODO Julian function to filter with search bar
-    public void textFilter(String searchText, List<Movie> movieList){
+    public List<Movie> textFilter(String searchText, List<Movie> movieList){
         String text = searchText.toLowerCase();
         movieList.removeIf(movie ->
                 !(movie.getDescription().toLowerCase().contains(text) || movie.getTitle().toLowerCase().contains(text)));
+        return movieList;
+
     }
 
     //TODO Konstantin
