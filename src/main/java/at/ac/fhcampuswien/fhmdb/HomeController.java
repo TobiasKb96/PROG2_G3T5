@@ -69,21 +69,22 @@ public class HomeController implements Initializable {
 
         //Reset the observable Movies
         searchBtn.setOnAction(actionEvent -> {
-            searchBtnAction(observableMovies, (Genres) genreComboBox.getValue(),searchField.getText());
+            observableMovies.clear();
+            observableMovies.addAll(searchBtnAction((Genres) genreComboBox.getValue(),searchField.getText()));
         });
     }
 
-    public void searchBtnAction(List<Movie> movieList, Genres genreToFilter , String searchText){
-        movieList.clear();
-        movieList.addAll(Movie.initializeMovies());
+    public List<Movie> searchBtnAction(Genres genreToFilter , String searchText){
+        List<Movie> temp=Movie.initializeMovies();
 
         if(genreToFilter != Genres.No_Filter && genreToFilter != null){
             //apply filter
-            movieList = genreFilter(genreToFilter,movieList);
+            temp = genreFilter(genreToFilter,temp);
         }
         if(searchText != null) {
-            movieList = textFilter(searchText,movieList);
+            temp = textFilter(searchText,temp);
         }
+        return temp;
     }
 
 
