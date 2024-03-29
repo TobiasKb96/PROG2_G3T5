@@ -16,10 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class HomeController implements Initializable {
@@ -84,16 +81,19 @@ public class HomeController implements Initializable {
             //apply filter
             genreFilter(genreToFilter,movieList);
         }
-        if(searchText != null) textFilter(searchText,movieList);
+        if(searchText != null) {
+            movieList = textFilter(searchText,movieList);
+        }
     }
 
 
     //TODO Julian function to filter with search bar
     public List<Movie> textFilter(String searchText, List<Movie> movieList){
+        List<Movie> tempList = new ArrayList<>(movieList);
         String text = searchText.toLowerCase();
-        movieList.removeIf(movie ->
+        tempList.removeIf(movie ->
                 !(movie.getDescription().toLowerCase().contains(text) || movie.getTitle().toLowerCase().contains(text)));
-        return movieList;
+        return tempList;
 
     }
 
