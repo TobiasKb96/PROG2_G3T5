@@ -79,7 +79,7 @@ public class HomeController implements Initializable {
 
         if(genreToFilter != Genres.No_Filter && genreToFilter != null){
             //apply filter
-            genreFilter(genreToFilter,movieList);
+            movieList = genreFilter(genreToFilter,movieList);
         }
         if(searchText != null) {
             movieList = textFilter(searchText,movieList);
@@ -97,9 +97,11 @@ public class HomeController implements Initializable {
 
     }
 
-    //TODO Konstantin
-    public void genreFilter(Genres genre,List<Movie> movieList){
-        movieList.removeIf(m -> !(m.getGenresList().contains(genre)));
+    //DONE Konstantin
+    public List<Movie> genreFilter(Genres genre,List<Movie> movieList){
+        List<Movie> temp=new ArrayList<>(movieList);
+        temp.removeIf(m -> !(m.getGenresList().contains(genre)));
+        return temp;
     }
 
     public void sortMovies_asc(List<Movie> movieList){
