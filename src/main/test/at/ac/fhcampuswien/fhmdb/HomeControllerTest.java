@@ -34,7 +34,7 @@ class HomeControllerTest {
         expected.add(new Movie("Herr der Ringe: Die Rückkehr des Königs", "Gandalf und Aragorn führen die Männer der Mittelerde in den Kampf gegen Saurons Armee, um ihn von Frodo und Sam abzulenken, die sich gerade dem Schicksalsberg mit dem Einen Ring nähern.", new ArrayList<Genres>(List.of(Genres.ACTION,Genres.ADVENTURE,Genres.DRAMA,Genres.FANTASY))));
 
         HomeController controller =new HomeController();
-        controller.genreFilter(Genres.FANTASY,toTest);
+        toTest = controller.genreFilter(Genres.FANTASY,toTest);
         assertEquals(toTest,expected);
     }
     @Test
@@ -46,7 +46,7 @@ class HomeControllerTest {
 
 
         HomeController controller =new HomeController();
-        controller.genreFilter(Genres.DRAMA,toTest);
+        toTest = controller.genreFilter(Genres.DRAMA,toTest);
         assertEquals(toTest,expected);
     }
     @Test
@@ -56,7 +56,7 @@ class HomeControllerTest {
           expected.add(new Movie("Spider-Man: Across the Spider-Verse", "Miles Morales kehrt im 2. Teil der Spider-Verse-Saga zurück, reist durch das Multiversum und trifft auf ein Team von Spider-People. Uneinig über den Umgang mit einer neuen Bedrohung definiert Miles neu, was es bedeutet, ein Held zu sein.", new ArrayList<Genres>(List.of(Genres.ACTION,Genres.ADVENTURE,Genres.ANIMATION))));
 
         HomeController controller =new HomeController();
-        controller.genreFilter(Genres.ANIMATION,toTest);
+        toTest = controller.genreFilter(Genres.ANIMATION,toTest);
         assertEquals(toTest,expected);
     }
     @Test
@@ -65,7 +65,7 @@ class HomeControllerTest {
         List<Movie> expected=new ArrayList<>();
 
         HomeController controller =new HomeController();
-        controller.genreFilter(Genres.COMEDY,toTest);
+        toTest = controller.genreFilter(Genres.COMEDY,toTest);
         assertEquals(toTest,expected);
     }
 
