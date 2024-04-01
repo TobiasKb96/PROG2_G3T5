@@ -1,15 +1,5 @@
 Exercise 2 TODO
 
-- integrate the okhttp library
-- integrate the Gson and Jackson libraries
-- Parsing of responses into suitable Java classes
-
-- Untersuchen der API Endpunkte mittels Swagger, Curl oder Postman
-    https://prog2.fh-campuswien.ac.at/swagger-ui/index.html
-
-
-
-
 Empfohlene Vorgehensweise
 
 - Untersucht die Endpunkte der API (was sind mögliche Responses? Welche Parameter können übergeben werden?)
@@ -17,6 +7,9 @@ Empfohlene Vorgehensweise
 - Erstellt und implementiert die MovieAPI Klasse (Hint: hier können die Libraries okhttp und gson/jackson verwendet werden)
 - Adaptiert die Controller Klasse indem ihr anstelle der statischen Liste aus Exercise 1 die Funktion(en) der MovieAPI aufruft
 - Implementiert die vorgegebenen Methoden mithilfe von Java Streams und schreibt Testfälle.
+
+- Java Stream Methoden hinzufügen
+- Parsing der responses in geeignete Java-Klassen
 
 
 
