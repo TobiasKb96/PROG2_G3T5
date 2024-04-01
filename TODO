@@ -1,0 +1,29 @@
+Exercise 2 TODO
+
+- integrate the okhttp library
+- integrate the Gson and Jackson libraries
+- Parsing of responses into suitable Java classes
+
+- Untersuchen der API Endpunkte mittels Swagger, Curl oder Postman
+    https://prog2.fh-campuswien.ac.at/swagger-ui/index.html
+
+
+
+
+Empfohlene Vorgehensweise
+
+- Untersucht die Endpunkte der API (was sind mögliche Responses? Welche Parameter können übergeben werden?)
+- Erweitert eure Movie Klasse um die notwendigen Attribute (siehe Response)
+- Erstellt und implementiert die MovieAPI Klasse (Hint: hier können die Libraries okhttp und gson/jackson verwendet werden)
+- Adaptiert die Controller Klasse indem ihr anstelle der statischen Liste aus Exercise 1 die Funktion(en) der MovieAPI aufruft
+- Implementiert die vorgegebenen Methoden mithilfe von Java Streams und schreibt Testfälle.
+
+
+
+Bewertungskriterien
+
+- Die Movie Klasse ist um notwendige Attribute erweitert. Die GUI enthält neue Felder, über die gefiltert werden kann (1 Pkt.)
+- Die MovieAPI Klasse stellt Methoden bereit, die es ermöglichen unterschiedliche Parameter (Genre, Freitext, etc.) an die API zu senden.
+Filme werden entsprechend der gesetzten Kriterien von der API abgefragt, in Java Objekte geparsed und im UI angezeigt. (3 Pkt.)
+- Vorgegebene Methoden sind mit Java Streams umgesetzt und werden durch sinnvolle Unit Tests getestet. Achtung:
+Unit Tests aus Exercise 1 müssen ggf. adaptiert werden! (3 Pkt.)
