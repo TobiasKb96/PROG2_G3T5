@@ -47,21 +47,21 @@ public class HomeController implements Initializable {
         movieListView.setItems(observableMovies);   // set data of observable list to list view
         movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
 
-        // TODO add genre filter items with genreComboBox.getItems().addAll(...)
+        // DONE add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genres.values());
 
-        // TODO add event handlers to buttons and call the regarding methods
+        // DONE add event handlers to buttons and call the regarding methods
         // either set event handlers in the fxml file (onAction) or add them here
 
         // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
             if(sortBtn.getText().equals("Sort (asc)")) {
-                // TODO sort Julian observableMovies ascending
+                // DONE sort Julian observableMovies ascending
                 sortMovies_asc(observableMovies);
                 sortBtn.setText("Sort (desc)");
             } else {
-                // TODO Julian sort observableMovies descending
+                // DONE Julian sort observableMovies descending
                 sortMovies_dsc(observableMovies);
                 sortBtn.setText("Sort (asc)");
             }
@@ -88,7 +88,7 @@ public class HomeController implements Initializable {
     }
 
 
-    //TODO Julian function to filter with search bar
+    //DONE Julian function to filter with search bar
     public List<Movie> textFilter(String searchText, List<Movie> movieList){
         List<Movie> tempList = new ArrayList<>(movieList);
         String text = searchText.toLowerCase();
