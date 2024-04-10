@@ -19,7 +19,7 @@ public class Movie {
         this.genres = genres;
     }
 
-    public Movie(List<Genres> genres, String id, String title, String description, String imgUrl, List<String> directors, List<String> writers, List<String> mainCast, float rating, int releaseYear, int lengthInMinutes) {
+    public Movie(String id, String title, String description,List<Genres> genres, String imgUrl, List<String> directors, List<String> writers, List<String> mainCast, float rating, int releaseYear, int lengthInMinutes) {
         this.genres = genres;
         this.id = id;
         this.title = title;

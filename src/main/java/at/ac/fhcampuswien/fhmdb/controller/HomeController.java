@@ -87,16 +87,16 @@ public class HomeController implements Initializable {
         //Reset the observable Movies
         searchBtn.setOnAction(actionEvent -> {
             observableMovies.clear();
-            observableMovies.addAll(searchBtnAction((Genres) genreComboBox.getValue(),searchField.getText()));
+            observableMovies.addAll(searchBtnAction(genreComboBox.getValue(),searchField.getText(),releaseYearComboBox.getValue(),ratingComboBox.getValue()));
         });
     }
     //TODO Julian implement the methods using Java Streams
-    public List<Movie> searchBtnAction(Genres genreToFilter , String searchText){
+    public List<Movie> searchBtnAction(Object genreToFilter ,Object searchText, Object releaseYear, Object rating){
         queryParams.clear();
         queryParams.put("query",searchText);
         queryParams.put("genre",genreToFilter);
-        queryParams.put("releaseYear",releaseYearComboBox.getValue()); //Parameter muss noch übergeben werden, sonst funktioniert test nicht
-        queryParams.put("ratingFrom",ratingComboBox.getValue()); //same
+        queryParams.put("releaseYear",releaseYear);
+        queryParams.put("ratingFrom",rating);
         return Movie.initializeMovies(queryParams);
     }
 

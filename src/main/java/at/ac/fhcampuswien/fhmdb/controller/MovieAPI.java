@@ -15,6 +15,10 @@ public class MovieAPI {
 
     private String queryUrl = "";
 
+    public String getQueryUrl() {
+        return queryUrl;
+    }
+
     public void setUrl(Map<String, Object> params){
 
         HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
