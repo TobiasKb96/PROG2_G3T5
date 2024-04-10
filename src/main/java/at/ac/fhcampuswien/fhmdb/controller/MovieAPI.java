@@ -23,7 +23,7 @@ public class MovieAPI {
                 .addPathSegment("movies");
 
         params.entrySet().stream()
-                .filter(entry -> entry.getValue() != null && !Objects.equals(entry.getValue().toString(),"") && entry.getValue() != "No_Filter")
+                .filter(entry -> entry.getValue() != null && !Objects.equals(entry.getValue().toString(),"") && !Objects.equals(entry.getValue().toString(), "No_Filter"))
                 .forEach(entry -> urlBuilder.addQueryParameter(entry.getKey(), entry.getValue().toString()));
 
         this.queryUrl = urlBuilder.toString();
