@@ -113,4 +113,28 @@ public class HomeController implements Initializable {
         movieList.sort((movie1, movie2) -> movie2.getTitle().compareToIgnoreCase(movie1.getTitle()));
     }
 
+
+    public String getMostPopularActor(List<Movie> movieList){
+        String persons = "";
+
+        return persons;
+    }
+
+    public int getLongestMovieTitle(List<Movie> movieList){
+        int letters = 0;
+
+        return letters;
+    }
+
+    public long countMoviesFrom(List<Movie> movieList, String director){
+        int amountMovies = 0;
+
+        return amountMovies;
+    }
+
+    public List<Movie> getMoviesBetweenYears(List<Movie> movieList, int startYear, int endYear){
+        List<Movie> temp=new ArrayList<>(movieList);
+
+        return temp;
+    }
 }

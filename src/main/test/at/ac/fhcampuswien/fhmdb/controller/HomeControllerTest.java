@@ -189,5 +189,32 @@ class HomeControllerTest {
         assertEquals(expectedList, actualList);
     }
 
+    @Test
+    void most_frequently_occurring_person(){
+        //given
+        //when
+        //then
+    }
+
+    @Test
+    void number_of_letters_of_longest_movie_title(){
+        //given
+        //when
+        //then
+    }
+
+    @Test
+    void number_of_films_by_one_director(){
+        //given
+        //when
+        //then
+    }
+    @Test
+    void list_all_movies_in_a_certain_period(){
+        //given
+        //when
+        //then
+    }
+
 }
 
