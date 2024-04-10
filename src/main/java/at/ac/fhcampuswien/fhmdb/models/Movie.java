@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.models;
 
 import at.ac.fhcampuswien.fhmdb.controller.MovieAPI;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class Movie {
     private String id, title, description, imgUrl;
     private List<String> directors, writers, mainCast;
     private float rating;
-    private  int releaseYear, lengthInMinutes;
+    private int releaseYear, lengthInMinutes;
 
     public Movie(String title, String description, List<Genres> genres) {
         this.title = title;
@@ -19,7 +20,7 @@ public class Movie {
         this.genres = genres;
     }
 
-    public Movie(String id, String title, String description,List<Genres> genres, String imgUrl, List<String> directors, List<String> writers, List<String> mainCast, float rating, int releaseYear, int lengthInMinutes) {
+    public Movie(String id, String title, String description, List<Genres> genres, String imgUrl, List<String> directors, List<String> writers, List<String> mainCast, float rating, int releaseYear, int lengthInMinutes) {
         this.genres = genres;
         this.id = id;
         this.title = title;
@@ -44,9 +45,11 @@ public class Movie {
     public List<Genres> getGenres() {
         return genres;
     }
+
     public int getReleaseYear() {
         return releaseYear;
     }
+
     public float getRating() {
         return rating;
     }
@@ -62,28 +65,33 @@ public class Movie {
         return out.toString();
     }
 
-    public static List<Movie> initializeMovies(Map<String, Object> params){
+    public static List<Movie> initializeMovies(Map<String, Object> params) {
         MovieAPI movieAPI = new MovieAPI();
         movieAPI.setUrl(params);
         return movieAPI.jsonToMovieList(movieAPI.apiQuery());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        else if (!(o instanceof Movie))
-            return false;
-        else if (((Movie) o).title.equals(this.title) &&
-                ((Movie) o).description.equals(this.description)){
-            for(int i = 0; i<((Movie) o).genres.size(); i++) {
-                if(!((Movie) o).genres.get(i).equals(this.genres.get(i)))
-                    return false;
-            }
-            return true;
-        }
-        else
-            return false;
-
+    public static List<Movie> initializeMovies() {
+        MovieAPI movieAPI = new MovieAPI();
+        Map<String, Object> emptyMap = new HashMap<>();
+        movieAPI.setUrl(emptyMap);
+        return movieAPI.jsonToMovieList(movieAPI.apiQuery());
     }
-}
+        @Override
+        public boolean equals (Object o){
+            if (o == this)
+                return true;
+            else if (!(o instanceof Movie))
+                return false;
+            else if (((Movie) o).title.equals(this.title) &&
+                    ((Movie) o).description.equals(this.description)) {
+                for (int i = 0; i < ((Movie) o).genres.size(); i++) {
+                    if (!((Movie) o).genres.get(i).equals(this.genres.get(i)))
+                        return false;
+                }
+                return true;
+            } else
+                return false;
+
+        }
+    }
