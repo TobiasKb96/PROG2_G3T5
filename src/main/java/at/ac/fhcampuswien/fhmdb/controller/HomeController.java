@@ -52,7 +52,7 @@ public class HomeController implements Initializable {
         // DONE add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genres.values());
-
+        releaseYearComboBox.getItems().add("No_Filter");
         releaseYearComboBox.getItems().addAll(allMovies.stream()
                 .map(Movie::getReleaseYear)
                 .distinct()
@@ -60,6 +60,7 @@ public class HomeController implements Initializable {
                 .map(String::valueOf)
                 .toList());
 
+        ratingComboBox.getItems().add("No_Filter");
         ratingComboBox.getItems().addAll(allMovies.stream()
                 .map(Movie::getRating)
                 .distinct()
@@ -94,8 +95,8 @@ public class HomeController implements Initializable {
         queryParams.clear();
         queryParams.put("query",searchText);
         if(genreToFilter != null) queryParams.put("genre",genreToFilter.toString());
-        if(releaseYearComboBox.getValue() != null) queryParams.put("releaseYear",releaseYearComboBox.getValue().toString()); //Parameter muss übergeben werden, sonst funktioniert test nicht
-        if(releaseYearComboBox.getValue()!= null) queryParams.put("ratingFrom",ratingComboBox.getValue().toString()); //same
+        if(releaseYearComboBox.getValue()!= null) queryParams.put("releaseYear",(String) releaseYearComboBox.getValue()); //Parameter muss übergeben werden, sonst funktioniert test nicht
+        if(ratingComboBox.getValue()!= null) queryParams.put("ratingFrom",(String) ratingComboBox.getValue()); //same
         List<Movie> temp=Movie.initializeMovies(queryParams);
         return temp;
     }
