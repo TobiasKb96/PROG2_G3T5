@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+//TODO Konstantin integrate new filter fields
 public class Movie {
     private String title;
     private String description;

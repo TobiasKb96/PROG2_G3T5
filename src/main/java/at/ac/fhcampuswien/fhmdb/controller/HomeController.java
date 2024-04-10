@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.*;
 
-
+//TODO Konstantin Calling the API instead of the static lists
 public class HomeController implements Initializable {
     @FXML
     public JFXButton searchBtn;
@@ -73,7 +73,7 @@ public class HomeController implements Initializable {
             observableMovies.addAll(searchBtnAction((Genres) genreComboBox.getValue(),searchField.getText()));
         });
     }
-
+    //TODO Julian implement the methods using Java Streams
     public List<Movie> searchBtnAction(Genres genreToFilter , String searchText){
         List<Movie> temp=Movie.initializeMovies();
 
