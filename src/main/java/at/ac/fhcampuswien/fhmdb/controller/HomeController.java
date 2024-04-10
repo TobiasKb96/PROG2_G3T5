@@ -33,7 +33,7 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton sortBtn;
 
-    public Map<String, String> queryParams = new HashMap<>();
+    public Map<String, Object> queryParams = new HashMap<>();
 
     public List<Movie> allMovies = Movie.initializeMovies(queryParams); // key= query, genre, releaseYear, ratingFrom
 
@@ -94,11 +94,10 @@ public class HomeController implements Initializable {
     public List<Movie> searchBtnAction(Genres genreToFilter , String searchText){
         queryParams.clear();
         queryParams.put("query",searchText);
-        if(genreToFilter != null) queryParams.put("genre",genreToFilter.toString());
-        if(releaseYearComboBox.getValue()!= null) queryParams.put("releaseYear",(String) releaseYearComboBox.getValue()); //Parameter muss übergeben werden, sonst funktioniert test nicht
-        if(ratingComboBox.getValue()!= null) queryParams.put("ratingFrom",(String) ratingComboBox.getValue()); //same
-        List<Movie> temp=Movie.initializeMovies(queryParams);
-        return temp;
+        queryParams.put("genre",genreToFilter);
+        queryParams.put("releaseYear",releaseYearComboBox.getValue()); //Parameter muss noch übergeben werden, sonst funktioniert test nicht
+        queryParams.put("ratingFrom",ratingComboBox.getValue()); //same
+        return Movie.initializeMovies(queryParams);
     }
 
     //DONE Julian function to filter with search bar

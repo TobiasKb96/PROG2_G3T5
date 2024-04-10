@@ -14,9 +14,8 @@ import java.util.*;
 public class MovieAPI {
 
     private String queryUrl = "";
-    private Map<String, String> parameters = new HashMap<>();
 
-    public void setUrl(Map<String, String> params){
+    public void setUrl(Map<String, Object> params){
 
         HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
                 .scheme("https")
@@ -24,8 +23,8 @@ public class MovieAPI {
                 .addPathSegment("movies");
 
         params.entrySet().stream()
-                .filter(entry -> entry.getValue() != null && !entry.getValue().isEmpty() && entry.getValue() != "No_Filter")
-                .forEach(entry -> urlBuilder.addQueryParameter(entry.getKey(), entry.getValue()));
+                .filter(entry -> entry.getValue() != null && !Objects.equals(entry.getValue().toString(),"") && entry.getValue() != "No_Filter")
+                .forEach(entry -> urlBuilder.addQueryParameter(entry.getKey(), entry.getValue().toString()));
 
         this.queryUrl = urlBuilder.toString();
     }
@@ -43,10 +42,6 @@ public class MovieAPI {
         Response response = null;
         try {
             response = client.newCall(request).execute();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             return response.body().string();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -62,7 +62,7 @@ public class Movie {
         return out.toString();
     }
 
-    public static List<Movie> initializeMovies(Map<String, String> params){
+    public static List<Movie> initializeMovies(Map<String, Object> params){
         MovieAPI movieAPI = new MovieAPI();
         movieAPI.setUrl(params);
         return movieAPI.jsonToMovieList(movieAPI.apiQuery());
