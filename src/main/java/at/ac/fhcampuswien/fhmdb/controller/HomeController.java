@@ -14,6 +14,7 @@ import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.*;
+import java.util.stream.Collectors;
 
 //TODO Konstantin Calling the API instead of the static lists
 public class HomeController implements Initializable {
@@ -32,9 +33,13 @@ public class HomeController implements Initializable {
     @FXML
     public JFXButton sortBtn;
 
-    public List<Movie> allMovies = Movie.initializeMovies();
+    public Map<String, String> queryParams = new HashMap<>();
+
+    public List<Movie> allMovies = Movie.initializeMovies(queryParams); // key= query, genre, releaseYear, ratingFrom
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
+    public JFXComboBox releaseYearComboBox;
+    public JFXComboBox ratingComboBox;
 
     protected Genres selectedGenre;
     @Override
@@ -47,6 +52,20 @@ public class HomeController implements Initializable {
         // DONE add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genres.values());
+
+        releaseYearComboBox.getItems().addAll(allMovies.stream()
+                .map(Movie::getReleaseYear)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .map(String::valueOf)
+                .toList());
+
+        ratingComboBox.getItems().addAll(allMovies.stream()
+                .map(Movie::getRating)
+                .distinct()
+                .sorted(Comparator.reverseOrder())
+                .map(String::valueOf)
+                .toList());
 
         // DONE add event handlers to buttons and call the regarding methods
         // either set event handlers in the fxml file (onAction) or add them here
@@ -72,18 +91,14 @@ public class HomeController implements Initializable {
     }
     //TODO Julian implement the methods using Java Streams
     public List<Movie> searchBtnAction(Genres genreToFilter , String searchText){
-        List<Movie> temp=Movie.initializeMovies();
-
-        if(genreToFilter != Genres.No_Filter && genreToFilter != null){
-            //apply filter
-            temp = genreFilter(genreToFilter,temp);
-        }
-        if(searchText != null) {
-            temp = textFilter(searchText,temp);
-        }
+        queryParams.clear();
+        queryParams.put("query",searchText);
+        if(genreToFilter != null) queryParams.put("genre",genreToFilter.toString());
+        if(releaseYearComboBox.getValue() != null) queryParams.put("releaseYear",releaseYearComboBox.getValue().toString()); //Parameter muss übergeben werden, sonst funktioniert test nicht
+        if(releaseYearComboBox.getValue()!= null) queryParams.put("ratingFrom",ratingComboBox.getValue().toString()); //same
+        List<Movie> temp=Movie.initializeMovies(queryParams);
         return temp;
     }
-
 
     //DONE Julian function to filter with search bar
     public List<Movie> textFilter(String searchText, List<Movie> movieList){
@@ -92,7 +107,6 @@ public class HomeController implements Initializable {
         tempList.removeIf(movie ->
                 !(movie.getDescription().toLowerCase().contains(text) || movie.getTitle().toLowerCase().contains(text)));
         return tempList;
-
     }
 
     //DONE Konstantin
@@ -109,5 +123,4 @@ public class HomeController implements Initializable {
     public void sortMovies_dsc(List<Movie> movieList){
         movieList.sort((movie1, movie2) -> movie2.getTitle().compareToIgnoreCase(movie1.getTitle()));
     }
-
 }

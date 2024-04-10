@@ -7,20 +7,36 @@ import at.ac.fhcampuswien.fhmdb.models.Movie;
 import com.google.gson.Gson;
 import okhttp3.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 //TODO Tobias Implementation of API communication
 //TODO Konstantin Implementation of postman tests
 public class MovieAPI {
 
-    private String baseURL = "https://prog2.fh-campuswien.ac.at/movies";
+    private String queryUrl = "";
+    private Map<String, String> parameters = new HashMap<>();
 
-    public String getApiRequest() {
+    public void setUrl(Map<String, String> params){
+
+        HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
+                .scheme("https")
+                .host("prog2.fh-campuswien.ac.at")
+                .addPathSegment("movies");
+
+        params.entrySet().stream()
+                .filter(entry -> entry.getValue() != null && !entry.getValue().isEmpty() && entry.getValue() != "No_Filter")
+                .forEach(entry -> urlBuilder.addQueryParameter(entry.getKey(), entry.getValue()));
+
+        this.queryUrl = urlBuilder.toString();
+    }
+
+
+    public String apiQuery() {
         OkHttpClient client = new OkHttpClient();
+
+        System.out.println(queryUrl);
         Request request = new Request.Builder()
-                .url(baseURL)
+                .url(queryUrl)
                 .header("User-Agent", "http.agent")
                 .build();
 

@@ -2,9 +2,8 @@ package at.ac.fhcampuswien.fhmdb.models;
 
 import at.ac.fhcampuswien.fhmdb.controller.MovieAPI;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 //TODO Konstantin integrate new filter fields
 public class Movie {
@@ -45,6 +44,12 @@ public class Movie {
     public List<Genres> getGenres() {
         return genres;
     }
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+    public float getRating() {
+        return rating;
+    }
 
     public String getGenresListAsString() {
         StringBuilder out = new StringBuilder();
@@ -57,9 +62,10 @@ public class Movie {
         return out.toString();
     }
 
-    public static List<Movie> initializeMovies(){
+    public static List<Movie> initializeMovies(Map<String, String> params){
         MovieAPI movieAPI = new MovieAPI();
-        return movieAPI.jsonToMovieList(movieAPI.getApiRequest());
+        movieAPI.setUrl(params);
+        return movieAPI.jsonToMovieList(movieAPI.apiQuery());
     }
 
     @Override
