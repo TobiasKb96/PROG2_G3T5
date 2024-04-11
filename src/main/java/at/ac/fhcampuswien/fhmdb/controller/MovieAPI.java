@@ -26,6 +26,7 @@ public class MovieAPI {
                 .host("prog2.fh-campuswien.ac.at")
                 .addPathSegment("movies");
 
+
         params.entrySet().stream()
                 .filter(entry -> entry.getValue() != null && !Objects.equals(entry.getValue().toString(),"") && !Objects.equals(entry.getValue().toString(), "No_Filter"))
                 .forEach(entry -> urlBuilder.addQueryParameter(entry.getKey(), entry.getValue().toString()));
@@ -34,10 +35,12 @@ public class MovieAPI {
     }
 
 
-    public String apiQuery() {
+    public String apiQuery(Map<String, Object> params) {
+        setUrl(params);
         OkHttpClient client = new OkHttpClient();
 
         System.out.println(queryUrl);
+
         Request request = new Request.Builder()
                 .url(queryUrl)
                 .header("User-Agent", "http.agent")

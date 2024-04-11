@@ -67,15 +67,13 @@ public class Movie {
 
     public static List<Movie> initializeMovies(Map<String, Object> params) {
         MovieAPI movieAPI = new MovieAPI();
-        movieAPI.setUrl(params);
-        return movieAPI.jsonToMovieList(movieAPI.apiQuery());
+        return movieAPI.jsonToMovieList(movieAPI.apiQuery(params));
     }
 
     public static List<Movie> initializeMovies() {
         MovieAPI movieAPI = new MovieAPI();
         Map<String, Object> emptyMap = new HashMap<>();
-        movieAPI.setUrl(emptyMap);
-        return movieAPI.jsonToMovieList(movieAPI.apiQuery());
+        return movieAPI.jsonToMovieList(movieAPI.apiQuery(emptyMap));
     }
         @Override
         public boolean equals (Object o){

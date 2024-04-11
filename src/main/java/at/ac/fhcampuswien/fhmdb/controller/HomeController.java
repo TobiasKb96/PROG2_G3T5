@@ -35,7 +35,7 @@ public class HomeController implements Initializable {
 
     public Map<String, Object> queryParams = new HashMap<>();
 
-    public List<Movie> allMovies = Movie.initializeMovies(queryParams); // key= query, genre, releaseYear, ratingFrom
+    public List<Movie> allMovies = Movie.initializeMovies(); // key= query, genre, releaseYear, ratingFrom
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
     public JFXComboBox releaseYearComboBox;
@@ -52,6 +52,7 @@ public class HomeController implements Initializable {
         // DONE add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genres.values());
+
         releaseYearComboBox.getItems().add("No_Filter");
         releaseYearComboBox.getItems().addAll(allMovies.stream()
                 .map(Movie::getReleaseYear)

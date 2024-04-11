@@ -25,7 +25,6 @@ class MovieAPITest {
         testMap.put("genre", "ACTION");
         testMap.put("ratingFrom", "8.6");
         testMap.put("releaseYear", "2019");
-        movieAPI.setUrl(testMap);
         String actualUrl = movieAPI.getQueryUrl();
         //then
         assertEquals(expectedUrl, actualUrl);
@@ -42,7 +41,6 @@ class MovieAPITest {
         testMap.put("genre", "");
         testMap.put("ratingFrom", null);
         testMap.put("releaseYear", "No_Filter");
-        movieAPI.setUrl(testMap);
         String actualUrl = movieAPI.getQueryUrl();
         //then
         assertEquals(expectedUrl, actualUrl);
@@ -59,11 +57,10 @@ class MovieAPITest {
         testMap.put("genre", "ACTION");
         testMap.put("ratingFrom", "4.6");
         testMap.put("releaseYear", "2009");
-        movieAPI.setUrl(testMap);
+
         //when
 
-
-        String actualResponse = movieAPI.apiQuery();
+        String actualResponse = movieAPI.apiQuery(testMap);
         //then
         assertEquals(expectedResponse, actualResponse);
     }
@@ -78,9 +75,8 @@ class MovieAPITest {
         testMap.put("genre", "");
         testMap.put("ratingFrom", "9.5");
         testMap.put("releaseYear", "1900");
-        movieAPI.setUrl(testMap);
         //when
-        String actualResponse = movieAPI.apiQuery();
+        String actualResponse = movieAPI.apiQuery(testMap);
         //then
         assertEquals(expectedResponse, actualResponse);
     }
@@ -94,7 +90,6 @@ class MovieAPITest {
         testMap.put("genre", "ACTION");
         testMap.put("ratingFrom", "4.6");
         testMap.put("releaseYear", "2009");
-        movieAPI.setUrl(testMap);
         expectedMovies.add(new Movie(
                 "399f8e7e-7ab7-4e22-94db-3d068fba2ac2",
                 "Avatar",
@@ -110,7 +105,7 @@ class MovieAPITest {
         ));
         //when
         List<Movie> actualMovies = new ArrayList<>();
-        actualMovies = movieAPI.jsonToMovieList(movieAPI.apiQuery());
+        actualMovies = movieAPI.jsonToMovieList(movieAPI.apiQuery(testMap));
         //then
         assertEquals(expectedMovies, actualMovies);
     }
