@@ -195,5 +195,30 @@ class HomeControllerTest {
         assertEquals(expectedList, actualList);
     }
 
+    @Test
+    void most_frequently_occurring_person(){
+        //given
+        HomeController controller = new HomeController();
+        List<Movie> actualList = Movie.initializeMovies();
+        String expectedActor = "Leonardo DiCaprio";
+        //when
+        String actualActor = controller.getMostPopularActor(actualList);
+        //then
+        assertEquals(expectedActor, actualActor);
+    }
+
+    @Test
+    void number_of_letters_of_longest_movie_title(){
+        //given
+        HomeController controller = new HomeController();
+        List<Movie> actualList = Movie.initializeMovies();
+        //Star Wars: Episode V - The Empire Strikes Back
+        int expectedTitleLength = 46;
+        //when
+        int actualTitleLength = controller.getLongestMovieTitle(actualList);
+        //then
+        assertEquals(expectedTitleLength, actualTitleLength);
+    }
+
 }
 

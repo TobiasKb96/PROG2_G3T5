@@ -54,6 +54,10 @@ public class Movie {
         return rating;
     }
 
+    public List<String> getMainCast() {
+        return mainCast;
+    }
+
     public String getGenresListAsString() {
         StringBuilder out = new StringBuilder();
 

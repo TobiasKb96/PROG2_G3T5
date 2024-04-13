@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 //TODO Konstantin Calling the API instead of the static lists
 public class HomeController implements Initializable {
@@ -42,6 +43,7 @@ public class HomeController implements Initializable {
     public JFXComboBox ratingComboBox;
 
     protected Genres selectedGenre;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         observableMovies.addAll(allMovies);         // add dummy data to observable list
@@ -74,7 +76,7 @@ public class HomeController implements Initializable {
 
         // Sort button example:
         sortBtn.setOnAction(actionEvent -> {
-            if(sortBtn.getText().equals("Sort (asc)")) {
+            if (sortBtn.getText().equals("Sort (asc)")) {
                 // DONE sort Julian observableMovies ascending
                 sortMovies_asc(observableMovies);
                 sortBtn.setText("Sort (desc)");
@@ -88,21 +90,22 @@ public class HomeController implements Initializable {
         //Reset the observable Movies
         searchBtn.setOnAction(actionEvent -> {
             observableMovies.clear();
-            observableMovies.addAll(searchBtnAction(genreComboBox.getValue(),searchField.getText(),releaseYearComboBox.getValue(),ratingComboBox.getValue()));
+            observableMovies.addAll(searchBtnAction(genreComboBox.getValue(), searchField.getText(), releaseYearComboBox.getValue(), ratingComboBox.getValue()));
         });
     }
+
     //TODO Julian implement the methods using Java Streams
-    public List<Movie> searchBtnAction(Object genreToFilter ,Object searchText, Object releaseYear, Object rating){
+    public List<Movie> searchBtnAction(Object genreToFilter, Object searchText, Object releaseYear, Object rating) {
         queryParams.clear();
-        queryParams.put("query",searchText);
-        queryParams.put("genre",genreToFilter);
-        queryParams.put("releaseYear",releaseYear);
-        queryParams.put("ratingFrom",rating);
+        queryParams.put("query", searchText);
+        queryParams.put("genre", genreToFilter);
+        queryParams.put("releaseYear", releaseYear);
+        queryParams.put("ratingFrom", rating);
         return Movie.initializeMovies(queryParams);
     }
 
     //DONE Julian function to filter with search bar
-    public List<Movie> textFilter(String searchText, List<Movie> movieList){
+    public List<Movie> textFilter(String searchText, List<Movie> movieList) {
         List<Movie> tempList = new ArrayList<>(movieList);
         String text = searchText.toLowerCase();
         tempList.removeIf(movie ->
@@ -111,17 +114,43 @@ public class HomeController implements Initializable {
     }
 
     //DONE Konstantin
-    public List<Movie> genreFilter(Genres genre,List<Movie> movieList){
-        List<Movie> temp=new ArrayList<>(movieList);
+    public List<Movie> genreFilter(Genres genre, List<Movie> movieList) {
+        List<Movie> temp = new ArrayList<>(movieList);
         temp.removeIf(m -> !(m.getGenres().contains(genre)));
         return temp;
     }
 
-    public void sortMovies_asc(List<Movie> movieList){
+    public void sortMovies_asc(List<Movie> movieList) {
         movieList.sort((movie1, movie2) -> movie1.getTitle().compareToIgnoreCase(movie2.getTitle()));
     }
 
-    public void sortMovies_dsc(List<Movie> movieList){
+    public void sortMovies_dsc(List<Movie> movieList) {
         movieList.sort((movie1, movie2) -> movie2.getTitle().compareToIgnoreCase(movie1.getTitle()));
     }
+
+
+    public String getMostPopularActor(List<Movie> movieList) {
+        Map<String, Long> actorsMap = movieList.stream()
+                .flatMap(movie -> movie.getMainCast().stream())
+                .collect(Collectors.groupingBy(actor -> actor, Collectors.counting()));
+
+        return actorsMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse("");
+    }
+
+    public int getLongestMovieTitle(List<Movie> movieList) {
+        String[] titles = movieList.stream()
+                .map(Movie::getTitle)
+                .toArray(String[]::new);
+
+        return Arrays.stream(titles)
+                .mapToInt(String::length)
+                .max()
+                .orElse(0);
+
+   }
+
+
 }
