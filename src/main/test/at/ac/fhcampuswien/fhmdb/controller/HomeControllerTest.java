@@ -220,5 +220,54 @@ class HomeControllerTest {
         assertEquals(expectedTitleLength, actualTitleLength);
     }
 
+    @Test
+    void countMoviesFromSteve(){
+        HomeController controller=new HomeController();
+        //                         ID           Title                Description                                   Genres                 ImgURL                                 Directors                                      Writers                                       Actors               rating         ReleaseYear         Length
+        Movie movie1=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie2=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie3=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Joe","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie4=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("John","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie5=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        List<Movie> test = new ArrayList<>(List.of(movie1, movie2, movie3, movie4, movie5));
+
+        long expected=3,actual;
+        actual=controller.countMoviesFrom(test,"Steve");
+        assertEquals(actual,expected);
+    }
+
+    @Test
+    void countMoviesFromJoe(){
+        HomeController controller=new HomeController();
+        //                         ID           Title                Description                                   Genres                 ImgURL                                 Directors                                      Writers                                       Actors               rating         ReleaseYear         Length
+        Movie movie1=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie2=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie3=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Joe","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie4=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("John","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie5=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        List<Movie> test = new ArrayList<>(List.of(movie1, movie2, movie3, movie4, movie5));
+
+        long expected=1,actual;
+        actual=controller.countMoviesFrom(test,"Joe");
+        assertEquals(actual,expected);
+    }
+
+    @Test
+    void countMoviesFromNoOne(){
+        HomeController controller=new HomeController();
+        //                         ID           Title                Description                                   Genres                 ImgURL                                 Directors                                      Writers                                       Actors               rating         ReleaseYear         Length
+        Movie movie1=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie2=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie3=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Joe","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie4=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("John","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        Movie movie5=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2100,120);
+        List<Movie> test = new ArrayList<>(List.of(movie1, movie2, movie3, movie4, movie5));
+
+        long expected=0,actual;
+        actual=controller.countMoviesFrom(test,"NoOne");
+        assertEquals(actual,expected);
+    }
+
+
 }
 
