@@ -268,6 +268,72 @@ class HomeControllerTest {
         assertEquals(actual,expected);
     }
 
+    @Test
+    void getMoviesThreeToNine(){
+        HomeController controller=new HomeController();
+        //                         ID           Title                Description                                   Genres                 ImgURL                                 Directors                                      Writers                                       Actors               rating         ReleaseYear         Length
+        Movie movie1=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        Movie movie2=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,7,120);
+        Movie movie3=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Joe","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,9,120);
+        Movie movie4=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("John","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2,120);
+        Movie movie5=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        //4,7,9,2,4
 
+        List<Movie> expected = new ArrayList<>(List.of(movie1,movie2, movie3, movie5));
+        List<Movie> actual = controller.getMoviesBetweenYears(List.of(movie1,movie2,movie3,movie4,movie5),3,9);
+
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void getMoviesSeven(){
+        HomeController controller=new HomeController();
+        //                         ID           Title                Description                                   Genres                 ImgURL                                 Directors                                      Writers                                       Actors               rating         ReleaseYear         Length
+        Movie movie1=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        Movie movie2=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,7,120);
+        Movie movie3=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Joe","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,9,120);
+        Movie movie4=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("John","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2,120);
+        Movie movie5=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        //4,7,9,2,4
+
+        List<Movie> expected = new ArrayList<>(List.of(movie2));
+        List<Movie> actual = controller.getMoviesBetweenYears(List.of(movie1,movie2,movie3,movie4,movie5),7,7);
+
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void getMoviesSixToOver(){
+        HomeController controller=new HomeController();
+        //                         ID           Title                Description                                   Genres                 ImgURL                                 Directors                                      Writers                                       Actors               rating         ReleaseYear         Length
+        Movie movie1=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        Movie movie2=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,7,120);
+        Movie movie3=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Joe","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,9,120);
+        Movie movie4=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("John","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2,120);
+        Movie movie5=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        //4,7,9,2,4
+
+        List<Movie> expected = new ArrayList<>(List.of(movie2,movie3));
+        List<Movie> actual = controller.getMoviesBetweenYears(List.of(movie1,movie2,movie3,movie4,movie5),6,200);
+
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void getMoviesNegativToFive(){
+        HomeController controller=new HomeController();
+        //                         ID           Title                Description                                   Genres                 ImgURL                                 Directors                                      Writers                                       Actors               rating         ReleaseYear         Length
+        Movie movie1=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        Movie movie2=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,7,120);
+        Movie movie3=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Joe","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,9,120);
+        Movie movie4=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("John","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,2,120);
+        Movie movie5=new Movie("An ID","A Movie","A Description",new ArrayList<Genres>(List.of(Genres.ACTION)),"ImgURL",new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),new ArrayList<String>(List.of("Steve","Bob")),5.5f,4,120);
+        //4,7,9,2,4
+
+        List<Movie> expected = new ArrayList<>(List.of(movie1, movie4,movie5));
+        List<Movie> actual = controller.getMoviesBetweenYears(List.of(movie1,movie2,movie3,movie4,movie5),-10,5);
+
+        assertEquals(expected,actual);
+    }
 }
 
