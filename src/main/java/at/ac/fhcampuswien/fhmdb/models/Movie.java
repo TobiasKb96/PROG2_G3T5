@@ -58,6 +58,10 @@ public class Movie {
         return mainCast;
     }
 
+    public List<String> getDirectors() {
+        return directors;
+    }
+
     public String getGenresListAsString() {
         StringBuilder out = new StringBuilder();
 
