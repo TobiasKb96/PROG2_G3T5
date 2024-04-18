@@ -19,6 +19,12 @@ public class Movie {
         this.description = description;
         this.genres = genres;
     }
+    public Movie(String id,String title, String description, List<Genres> genres) {
+        this.title = title;
+        this.description = description;
+        this.genres = genres;
+        this.id=id;
+    }
 
     public Movie(String id, String title, String description, List<Genres> genres, String imgUrl, List<String> directors, List<String> writers, List<String> mainCast, float rating, int releaseYear, int lengthInMinutes) {
         this.genres = genres;
@@ -89,12 +95,7 @@ public class Movie {
                 return true;
             else if (!(o instanceof Movie))
                 return false;
-            else if (((Movie) o).title.equals(this.title) &&
-                    ((Movie) o).description.equals(this.description)) {
-                for (int i = 0; i < ((Movie) o).genres.size(); i++) {
-                    if (!((Movie) o).genres.get(i).equals(this.genres.get(i)))
-                        return false;
-                }
+            else if (((Movie) o).id.equals(this.id)){
                 return true;
             } else
                 return false;

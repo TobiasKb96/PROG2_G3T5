@@ -104,6 +104,7 @@ public class HomeController implements Initializable {
         return Movie.initializeMovies(queryParams);
     }
 
+    /* no longer needed, we get the filtered list via Get-Request
     //DONE Julian function to filter with search bar
     public List<Movie> textFilter(String searchText, List<Movie> movieList) {
         List<Movie> tempList = new ArrayList<>(movieList);
@@ -119,7 +120,7 @@ public class HomeController implements Initializable {
         temp.removeIf(m -> !(m.getGenres().contains(genre)));
         return temp;
     }
-
+    */
     public void sortMovies_asc(List<Movie> movieList) {
         movieList.sort((movie1, movie2) -> movie1.getTitle().compareToIgnoreCase(movie2.getTitle()));
     }
