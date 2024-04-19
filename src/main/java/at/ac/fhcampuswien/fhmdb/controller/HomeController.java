@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//TODO Konstantin Calling the API instead of the static lists
+//DONE Konstantin Calling the API instead of the static lists
 public class HomeController implements Initializable {
     @FXML
     public JFXButton searchBtn;
@@ -94,7 +94,7 @@ public class HomeController implements Initializable {
         });
     }
 
-    //TODO Julian implement the methods using Java Streams
+    //DONE Julian implement the methods using Java Streams
     public List<Movie> searchBtnAction(Object genreToFilter, Object searchText, Object releaseYear, Object rating) {
         queryParams.clear();
         queryParams.put("query", searchText);
@@ -142,15 +142,10 @@ public class HomeController implements Initializable {
     }
 
     public int getLongestMovieTitle(List<Movie> movieList) {
-        String[] titles = movieList.stream()
-                .map(Movie::getTitle)
-                .toArray(String[]::new);
 
-        return Arrays.stream(titles)
-                .mapToInt(String::length)
-                .max()
-                .orElse(0);
-
+        return movieList.stream()
+                .mapToInt(movies -> movies.getTitle().length())
+                .max().orElse(0);
    }
 
    public long countMoviesFrom(List<Movie> movieList, String director){

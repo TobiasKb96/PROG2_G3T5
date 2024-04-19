@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO Konstantin integrate new filter fields
+//DONE Konstantin integrate new filter fields
 public class Movie {
     public List<Genres> genres;
     private String id, title, description, imgUrl;

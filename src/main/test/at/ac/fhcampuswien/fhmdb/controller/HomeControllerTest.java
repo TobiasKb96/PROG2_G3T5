@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//TODO Julian create new tests for the stream methods
+//DONE Julian create new tests for the stream methods
 class HomeControllerTest {
     /*
     @Test
