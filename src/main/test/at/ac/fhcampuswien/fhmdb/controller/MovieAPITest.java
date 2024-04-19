@@ -25,6 +25,7 @@ class MovieAPITest {
         testMap.put("genre", "ACTION");
         testMap.put("ratingFrom", "8.6");
         testMap.put("releaseYear", "2019");
+        movieAPI.setUrl(testMap);
         String actualUrl = movieAPI.getQueryUrl();
         //then
         assertEquals(expectedUrl, actualUrl);
@@ -41,6 +42,7 @@ class MovieAPITest {
         testMap.put("genre", "");
         testMap.put("ratingFrom", null);
         testMap.put("releaseYear", "No_Filter");
+        movieAPI.setUrl(testMap);
         String actualUrl = movieAPI.getQueryUrl();
         //then
         assertEquals(expectedUrl, actualUrl);
