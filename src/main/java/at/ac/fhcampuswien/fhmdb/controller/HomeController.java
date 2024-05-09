@@ -10,12 +10,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 //DONE Konstantin Calling the API instead of the static lists
 public class HomeController implements Initializable {
@@ -43,6 +46,39 @@ public class HomeController implements Initializable {
     public JFXComboBox ratingComboBox;
 
     protected Genres selectedGenre;
+
+    @FXML
+    private HBox searchHbox;
+    @FXML
+    private VBox mainBox;
+    @FXML
+    private MenuButton menuButton;
+
+
+
+    @FXML
+    public void switch_to_main_menu() {
+        System.out.println("Option 1 selected");
+        // Implement your logic here for Option 1
+
+        if (!mainBox.getChildren().contains(searchHbox)) {
+            mainBox.getChildren().add(1, searchHbox);
+        }
+        menuButton.setText("Menu");
+    }
+    @FXML
+    private void switch_to_watchlist() {
+        if (searchHbox.getParent() != null) {
+            ((Pane) searchHbox.getParent()).getChildren().remove(searchHbox);
+        }
+        menuButton.setText("Watchlist");
+    }
+    @FXML
+    private void switch_to_about_page() {
+        System.out.println("Option 3 selected");
+        // Implement your logic here for Option 1
+        menuButton.setText("About");
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

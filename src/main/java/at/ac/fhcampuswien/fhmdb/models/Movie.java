@@ -48,6 +48,18 @@ public class Movie {
         return description;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public int getLengthInMinutes() {
+        return lengthInMinutes;
+    }
+
     public List<Genres> getGenres() {
         return genres;
     }

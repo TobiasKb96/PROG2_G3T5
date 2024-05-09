@@ -1,27 +1,40 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.MovieRepository;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.sql.SQLException;
 public class MovieCell extends ListCell<Movie> {
     private final Label title = new Label();
     private final Label releaseYear = new Label();
     private final Label detail = new Label();
     private final Label genres = new Label();
     private final Label rating = new Label();
-
-    private final HBox firstline = new HBox(title, releaseYear);
+    private final Button showDetails = new Button("Show Details");
+    private final Button watchlistButton = new Button("Add to Watchlist");
+    private final HBox firstline = new HBox(title, releaseYear, showDetails, watchlistButton);
     private final HBox secondline = new HBox(detail);
     private final HBox thirdline = new HBox(genres, rating);
     private final VBox layout = new VBox(firstline, secondline, thirdline);
+    MovieRepository movieRepository;
 
+    {
+        try {
+            movieRepository = new MovieRepository();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    //TODO repository in movie cell ist nicht gut -> MovieCell Callback lambda expression die aufgerufen wird den der button geklickt wird (1:19:22 im Video)
     @Override
     protected void updateItem(Movie movie, boolean empty) {
         super.updateItem(movie, empty);
@@ -70,6 +83,16 @@ public class MovieCell extends ListCell<Movie> {
             layout.spacingProperty().set(10);
             layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
             setGraphic(layout);
+
+
+            watchlistButton.setOnMouseClicked(mouseEvent -> {
+                    try {
+                        movieRepository.addToMovies(getItem());
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+            });
+
         }
     }
 }
