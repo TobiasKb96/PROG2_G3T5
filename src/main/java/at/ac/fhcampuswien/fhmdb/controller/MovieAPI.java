@@ -9,8 +9,6 @@ import okhttp3.*;
 import java.io.IOException;
 import java.util.*;
 
-//DONE Tobias Implementation of API communication
-//DONE Konstantin Implementation of postman tests
 public class MovieAPI {
 
     private String queryUrl = "";
