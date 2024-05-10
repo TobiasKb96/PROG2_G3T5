@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.models.WatchlistRepository;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
@@ -23,11 +24,11 @@ public class MovieCell extends ListCell<Movie> {
     private final HBox secondline = new HBox(detail);
     private final HBox thirdline = new HBox(genres, rating);
     private final VBox layout = new VBox(firstline, secondline, thirdline);
-    MovieRepository movieRepository;
+    WatchlistRepository watchlistRepository;
 
     {
         try {
-            movieRepository = new MovieRepository();
+            watchlistRepository = new WatchlistRepository();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -87,7 +88,7 @@ public class MovieCell extends ListCell<Movie> {
 
             watchlistButton.setOnMouseClicked(mouseEvent -> {
                     try {
-                        movieRepository.addToMovies(getItem());
+                        watchlistRepository.addToWatchlist(getItem());
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }

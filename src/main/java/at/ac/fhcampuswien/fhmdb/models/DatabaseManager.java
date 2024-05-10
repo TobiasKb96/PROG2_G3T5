@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 //All attributes for establishing the connection (URL, user, PW) as well as connection source and DAO
 public class DatabaseManager {
-    public static final String DB_URL = "jdbc:h2:file: ./db/movieDatabase";
+    public static final String DB_URL = "jdbc:h2:file:./db/movieDatabase";
     public static final String username = "user";
     public static final String password = "password";
     private static JdbcConnectionSource conn;
@@ -21,6 +21,7 @@ public class DatabaseManager {
     public DatabaseManager() throws SQLException {
         createConnectionSource();
         movieDao = DaoManager.createDao(conn, MovieEntity.class);
+        watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
         createTables();
     }
 
@@ -30,6 +31,7 @@ public class DatabaseManager {
 
     private static void createTables()throws SQLException{
         TableUtils.createTableIfNotExists(conn, MovieEntity.class);
+        TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
     }
 
     public Dao<MovieEntity, Long> getMovieDao(){

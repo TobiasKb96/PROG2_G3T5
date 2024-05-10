@@ -34,6 +34,16 @@ public class MovieEntity {
         this.rating = rating;
     }
 
+    //Constructor for WatchlistMovieEntity Subclass
+    public MovieEntity(String title, String description, String genres, String imgUrl, int releaseYear, int lengthInMinutes, double rating) {
+        this.title = title;
+        this.description = description;
+        this.genres = genres;
+        this.imgUrl = imgUrl;
+        this.releaseYear = releaseYear;
+        this.lengthInMinutes = lengthInMinutes;
+        this.rating = rating;
+    }
     public String movieToString(){
         return this.title + this.description + this.genres + this.imgUrl + this.releaseYear + this.lengthInMinutes + this.rating;
     }
