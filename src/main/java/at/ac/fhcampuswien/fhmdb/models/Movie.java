@@ -18,11 +18,12 @@ public class Movie {
         this.description = description;
         this.genres = genres;
     }
-    public Movie(String id,String title, String description, List<Genres> genres) {
+
+    public Movie(String id, String title, String description, List<Genres> genres) {
         this.title = title;
         this.description = description;
         this.genres = genres;
-        this.id=id;
+        this.id = id;
     }
 
     public Movie(String id, String title, String description, List<Genres> genres, String imgUrl, List<String> directors, List<String> writers, List<String> mainCast, float rating, int releaseYear, int lengthInMinutes) {
@@ -40,54 +41,109 @@ public class Movie {
     }
 
     public String getTitle() {
-        return title;
+        try {
+            return title;
+        }catch (NullPointerException e){
+            System.out.println("Could not find Title of Movie\n"+e);
+        }
+        return null;
     }
 
     public String getDescription() {
-        return description;
+        try {
+            return description;
+        }catch (NullPointerException e){
+            System.out.println("Could not find Description of Movie\n"+e);
+        }
+        return null;
     }
 
     public String getId() {
-        return id;
+        try {
+            return id;
+        } catch (NullPointerException e) {
+            System.out.println("Could not find ID of Movie\n" + e);
+        }
+        return null;
     }
 
     public String getImgUrl() {
-        return imgUrl;
+        try {
+            return imgUrl;
+        } catch (NullPointerException e) {
+            System.out.println("Could not find PosterUrl of Movie\n" + e);
+        }
+        return null;
     }
 
     public int getLengthInMinutes() {
-        return lengthInMinutes;
+        try {
+            return lengthInMinutes;
+        } catch (NullPointerException e) {
+            System.out.println("Could not find Length of Movie\n" + e);
+        }
+        return -1;
     }
 
     public List<Genres> getGenres() {
-        return genres;
+        try {
+            return genres;
+        }catch (NullPointerException e){
+            System.out.println("Could not find Genres of Movie\n"+e);
+        }
+        return null;
     }
 
     public int getReleaseYear() {
-        return releaseYear;
+        try {
+            return releaseYear;
+        }catch (NullPointerException e){
+            System.out.println("Could not find ReleaseYear of Movie\n"+e);
+        }
+        return -1;
     }
 
     public float getRating() {
-        return rating;
+        try {
+            return rating;
+        }catch (NullPointerException e){
+            System.out.println("Could not find Ratings of Movie\n"+e);
+        }
+        return -1;
     }
 
     public List<String> getMainCast() {
-        return mainCast;
+        try {
+            return mainCast;
+        }catch (NullPointerException e){
+            System.out.println("Could not find Main Cast of Movie\n"+e);
+        }
+        return null;
     }
 
     public List<String> getDirectors() {
-        return directors;
+        try {
+            return directors;
+        }catch (NullPointerException e){
+            System.out.println("Could not find Directors of Movie\n"+e);
+        }
+        return null;
     }
 
     public String getGenresListAsString() {
-        StringBuilder out = new StringBuilder();
+        try {
+            StringBuilder out = new StringBuilder();
 
-        for (Genres g : genres) {
-            out.append(g.toString() + ", ");
+            for (Genres g : genres) {
+                out.append(g.toString() + ", ");
+            }
+            out.delete(out.length() - 2, out.length());
+
+            return out.toString();
+        }catch (NullPointerException e){
+            System.out.println("Could not get Genres\n"+e);
         }
-        out.delete(out.length() - 2, out.length());
-
-        return out.toString();
+        return null;
     }
 
     public static List<Movie> initializeMovies(Map<String, Object> params) {
@@ -100,16 +156,17 @@ public class Movie {
         Map<String, Object> emptyMap = new HashMap<>();
         return movieAPI.jsonToMovieList(movieAPI.apiQuery(emptyMap));
     }
-        @Override
-        public boolean equals (Object o){
-            if (o == this)
-                return true;
-            else if (!(o instanceof Movie))
-                return false;
-            else if (((Movie) o).id.equals(this.id)){
-                return true;
-            } else
-                return false;
 
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        else if (!(o instanceof Movie))
+            return false;
+        else if (((Movie) o).id.equals(this.id)) {
+            return true;
+        } else
+            return false;
+
     }
+}
