@@ -40,6 +40,17 @@ public class Movie {
         this.lengthInMinutes = lengthInMinutes;
     }
 
+    //Constructor for Database (MovieEntity)
+    public Movie(String apiID, String title, String description, String genres, int releaseYear, String imgUrl, int lengthInMinutes, float rating) {
+        this.id = apiID;
+        this.title = title;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.rating = rating;
+        this.releaseYear = releaseYear;
+        this.lengthInMinutes = lengthInMinutes;
+    }
+
     public String getTitle() {
         return title;
     }

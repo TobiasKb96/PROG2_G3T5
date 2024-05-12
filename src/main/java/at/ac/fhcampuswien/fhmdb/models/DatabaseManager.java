@@ -18,11 +18,15 @@ public class DatabaseManager {
     private static DatabaseManager instance;
 
     //Establish connection, create dao and create table if not yet available
-    public DatabaseManager() throws SQLException {
-        createConnectionSource();
-        movieDao = DaoManager.createDao(conn, MovieEntity.class);
-        watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
-        createTables();
+    public DatabaseManager(){
+        try {
+            createConnectionSource();
+            movieDao = DaoManager.createDao(conn, MovieEntity.class);
+            watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
+            createTables();
+        }catch (SQLException e) {
+        System.out.println("Problem with Database initialisation");
+        }
     }
 
     private static void createConnectionSource() throws SQLException {
@@ -43,7 +47,7 @@ public class DatabaseManager {
     }
 
     //Singleton Patter
-    public static DatabaseManager getDatabaseInstance() throws SQLException {
+    public static DatabaseManager getDatabaseInstance(){
         if(instance == null){
             instance = new DatabaseManager();
         }

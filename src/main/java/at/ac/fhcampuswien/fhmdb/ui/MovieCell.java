@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.models.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.WatchlistRepository;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -24,11 +25,21 @@ public class MovieCell extends ListCell<Movie> {
     private final HBox secondline = new HBox(detail);
     private final HBox thirdline = new HBox(genres, rating);
     private final VBox layout = new VBox(firstline, secondline, thirdline);
-    WatchlistRepository watchlistRepository;
+//    WatchlistRepository watchlistRepository;
+//
+//    {
+//        try {
+//            watchlistRepository = new WatchlistRepository();
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
+    MovieRepository movieRepository;
 
     {
         try {
-            watchlistRepository = new WatchlistRepository();
+            movieRepository = new MovieRepository();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -87,11 +98,16 @@ public class MovieCell extends ListCell<Movie> {
 
 
             watchlistButton.setOnMouseClicked(mouseEvent -> {
-                    try {
-                        watchlistRepository.addToWatchlist(getItem());
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                WatchlistRepository watchlistRepository = new WatchlistRepository();
+              //  try {
+                        //watchlistRepository.addToWatchlist(getItem());
+                        //movieRepository.addToMovies(getItem());
+                        //watchlistRepository.addToWatchlist(new WatchlistMovieEntity(movie.getId()));
+                    watchlistRepository.removeFromMovies(movie.getId());
+//
+//                } catch (SQLException e) {
+//                        throw new RuntimeException(e);
+//                    }
             });
 
         }

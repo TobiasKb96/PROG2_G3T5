@@ -13,20 +13,43 @@ public class MovieRepository {
         this.dao = DatabaseManager.getDatabaseInstance().getMovieDao();
     }
 
-    public void addToMovies(Movie movie) throws SQLException {
-        dao.create(movieToEntity(movie));
+    public List<MovieEntity> getAllMovies() throws SQLException{
+      return dao.queryForAll();
     }
 
-    public void removeFromMovies(Movie movie) throws SQLException{
-        dao.delete(movieToEntity(movie));
+    public int removeAll() throws SQLException {
+        dao.delete(getAllMovies());
+        return 1;
     }
 
-    //To read in UI
-    public List<MovieEntity> readAllMovies() throws SQLException{
-        return dao.queryForAll();
+    public MovieEntity getMovie(String movieId) throws SQLException {
+        List<MovieEntity> movieEntityList = dao.queryForAll();
+        for (MovieEntity movieEntity : movieEntityList) {
+            if(movieEntity.getApiId().equals(movieId)) return movieEntity;
+        }
+        //return this.dao.queryForId(movieID);
+        return null;
     }
 
-    private MovieEntity movieToEntity(Movie movie){
+    public int addAllMovies(List<Movie> movies) throws SQLException {
+        int count = 0;
+        for(Movie movie : movies){
+            dao.createIfNotExists(movieToEntity(movie));
+            count ++;
+        }
+        return count;
+    }
+
+//    public void addToMovies(Movie movie) throws SQLException {
+//        dao.createIfNotExists(movieToEntity(movie));
+//    }
+
+
+    public static MovieEntity movieToEntity(Movie movie){
         return new MovieEntity(movie.getId(), movie.getTitle(), movie.getDescription(), movie.getGenresListAsString(), movie.getImgUrl(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getRating());
+    }
+
+    public static Movie entityToMovie(MovieEntity entity){
+        return new Movie(entity.getApiId(), entity.getTitle(), entity.getDescription(), entity.getGenres(), entity.getReleaseYear(), entity.getImgUrl(), entity.getLengthInMinutes(), (float) entity.getRating());
     }
 }

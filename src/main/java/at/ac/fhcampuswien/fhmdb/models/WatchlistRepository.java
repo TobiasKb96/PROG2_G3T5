@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -8,8 +9,9 @@ import java.util.List;
 //Providing the database functions
 public class WatchlistRepository {
     Dao<WatchlistMovieEntity, Long> dao;
+    MovieRepository movieRepository;
 
-    public WatchlistRepository() throws SQLException {
+    public WatchlistRepository(){
         this.dao = DatabaseManager.getDatabaseInstance().getWatchlistDao();
     }
 
@@ -17,19 +19,20 @@ public class WatchlistRepository {
       return dao.queryForAll();
     }
 
-    //To read in UI
-    public void addToWatchlist(Movie movie) throws SQLException {
-        dao.create(watchlistToEntity(movie));
+    public void addToWatchlist(WatchlistMovieEntity entity) throws SQLException {
+        dao.createIfNotExists(entity);
     }
 
-    public void removeFromMovies(Movie movie) throws SQLException{
-        dao.delete(watchlistToEntity(movie));
+    public void removeFromMovies(String apiId){
+        try {
+            List<WatchlistMovieEntity> movies = dao.queryForEq("apiId", apiId);
+            if (!movies.isEmpty()) {
+                dao.delete(movies);
+            } else {
+                System.out.println("No movie found with apiId: " + apiId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
-
-    private WatchlistMovieEntity watchlistToEntity(Movie movie){
-        return new WatchlistMovieEntity(movie.getId(), movie.getTitle(), movie.getDescription(), movie.getGenresListAsString(), movie.getImgUrl(), movie.getReleaseYear(), movie.getLengthInMinutes(), movie.getRating());
-    }
-
-
 }
