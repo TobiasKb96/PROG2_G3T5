@@ -9,11 +9,10 @@ import java.util.List;
 //Movie data required for the database
 @DatabaseTable(tableName = "movie")
 public class MovieEntity {
-    //Field: attribute in the table
     //generateID: automatic display of the id for new entries
-    @DatabaseField(generatedId = true)
-    private long id;
-    @DatabaseField(unique = true)
+//    @DatabaseField()
+//    private long id;
+    @DatabaseField(id = true)
     private String apiId;
     @DatabaseField()
     private String title, description, genres, imgUrl;
@@ -57,9 +56,9 @@ public class MovieEntity {
         return movieList;
     }
 
-    public long getId() {
-        return id;
-    }
+//    public long getId() {
+//        return id;
+//    }
 
     public String getApiId() {
         return apiId;

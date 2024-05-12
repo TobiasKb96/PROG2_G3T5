@@ -40,9 +40,9 @@ public class MovieRepository {
         return count;
     }
 
-//    public void addToMovies(Movie movie) throws SQLException {
-//        dao.createIfNotExists(movieToEntity(movie));
-//    }
+    public void addToMovies(Movie movie) throws SQLException {
+        dao.createIfNotExists(movieToEntity(movie));
+    }
 
 
     public static MovieEntity movieToEntity(Movie movie){

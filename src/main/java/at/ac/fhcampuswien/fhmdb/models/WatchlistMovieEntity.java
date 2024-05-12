@@ -7,10 +7,10 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "watchlist")
 public class WatchlistMovieEntity{
-    @DatabaseField(generatedId = true)
-    private long id;
+//    @DatabaseField()
+//    private long id;
 
-    @DatabaseField(unique = true)
+    @DatabaseField(id = true)
     private String apiId;
 
         public  WatchlistMovieEntity(){
