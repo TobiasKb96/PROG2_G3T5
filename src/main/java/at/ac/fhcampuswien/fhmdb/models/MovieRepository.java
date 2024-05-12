@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.fhmdb.models;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 //Providing the database functions
@@ -50,6 +51,21 @@ public class MovieRepository {
     }
 
     public static Movie entityToMovie(MovieEntity entity){
-        return new Movie(entity.getApiId(), entity.getTitle(), entity.getDescription(), entity.getGenres(), entity.getReleaseYear(), entity.getImgUrl(), entity.getLengthInMinutes(), (float) entity.getRating());
+        return new Movie(entity.getApiId(), entity.getTitle(), entity.getDescription(), getStringAsGenreList(entity.getGenres()), entity.getReleaseYear(), entity.getImgUrl(), entity.getLengthInMinutes(), (float) entity.getRating());
+    }
+
+    public static List<Genres> getStringAsGenreList(String genreString) {
+        String[] inputGenresArray = genreString.split(",");
+        List<Genres> outputGenreList = new ArrayList<>();
+        Genres tmp;
+        for(String genre : inputGenresArray){
+            try{
+               tmp=Genres.valueOf(genre.trim());
+                           outputGenreList.add(tmp);
+            }catch (IllegalArgumentException ilae){
+                System.out.println("Wrong Genre Type"+ilae+"\n"+genre);
+            }
+        }
+        return outputGenreList;
     }
 }

@@ -2,9 +2,7 @@ package at.ac.fhcampuswien.fhmdb.models;
 
 import at.ac.fhcampuswien.fhmdb.controller.MovieAPI;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Movie {
     public List<Genres> genres;
@@ -41,14 +39,18 @@ public class Movie {
     }
 
     //Constructor for Database (MovieEntity)
-    public Movie(String apiID, String title, String description, String genres, int releaseYear, String imgUrl, int lengthInMinutes, float rating) {
-        this.id = apiID;
+    public Movie(String id, String title, String description, List<Genres> genres, int releaseYear, String imgUrl, int lengthInMinutes, float rating) {
+        this.id = id;
         this.title = title;
         this.description = description;
+        this.genres = genres;
         this.imgUrl = imgUrl;
         this.rating = rating;
         this.releaseYear = releaseYear;
         this.lengthInMinutes = lengthInMinutes;
+    }
+
+    public Movie(Movie movie) {
     }
 
     public String getTitle() {

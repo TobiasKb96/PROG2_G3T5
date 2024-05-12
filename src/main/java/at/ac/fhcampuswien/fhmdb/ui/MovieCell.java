@@ -2,6 +2,8 @@ package at.ac.fhcampuswien.fhmdb.ui;
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.MovieRepository;
+import at.ac.fhcampuswien.fhmdb.models.WatchlistMovieEntity;
+import at.ac.fhcampuswien.fhmdb.models.WatchlistRepository;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
@@ -23,9 +25,7 @@ public class MovieCell extends ListCell<Movie> {
     private final HBox secondline = new HBox(detail);
     private final HBox thirdline = new HBox(genres, rating);
     private final VBox layout = new VBox(firstline, secondline, thirdline);
-    //TODO Maybe detach the ratings from thirdline so it can be freely positioned
 
-    //TODO repository in movie cell ist nicht gut -> MovieCell Callback lambda expression die aufgerufen wird den der button geklickt wird (1:19:22 im Video)
     MovieRepository movieRepository;
 
     {
@@ -89,11 +89,15 @@ public class MovieCell extends ListCell<Movie> {
 
 
             watchlistButton.setOnMouseClicked(mouseEvent -> {
-                    try {
-                        movieRepository.addToMovies(getItem());
-                    } catch (SQLException e) {
+                WatchlistRepository watchlistRepository = new WatchlistRepository();
+                try {
+                        //movieRepository.addToMovies(getItem());
+                        watchlistRepository.addToWatchlist(new WatchlistMovieEntity(movie.getId()));
+                        //watchlistRepository.removeFromMovies(movie.getId());
+                        //movieRepository.removeAll();
+                } catch (SQLException e) {
                         throw new RuntimeException(e);
-                    }
+                   }
             });
 
         }

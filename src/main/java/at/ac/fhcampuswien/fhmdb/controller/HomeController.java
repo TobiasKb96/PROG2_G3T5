@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.controller;
 
-import at.ac.fhcampuswien.fhmdb.models.Genres;
-import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.*;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -17,24 +16,51 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//DONE Konstantin Calling the API instead of the static lists
 public class HomeController implements Initializable {
     @FXML
     public JFXButton searchBtn;
+
     @FXML
     public TextField searchField;
+
     @FXML
     public JFXListView movieListView;
+
     @FXML
     public JFXComboBox genreComboBox;
+
     @FXML
     public JFXButton sortBtn;
-    @FXML
+
+    public Map<String, Object> queryParams = new HashMap<>();
+
+    public List<Movie> allMovies = Movie.initializeMovies(); // key= query, genre, releaseYear, ratingFrom
+
+    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
     public JFXComboBox releaseYearComboBox;
-    @FXML
     public JFXComboBox ratingComboBox;
+
+    protected Genres selectedGenre;
+
+    private MovieRepository movieRepo;
+
+    {
+        try {
+            movieRepo = new MovieRepository();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private WatchlistRepository watchlistRepository = new WatchlistRepository();
+
+
+
     @FXML
     private HBox searchHbox;
     @FXML
@@ -42,10 +68,7 @@ public class HomeController implements Initializable {
     @FXML
     private MenuButton menuButton;
 
-    public Map<String, Object> queryParams = new HashMap<>();
-    public List<Movie> allMovies = Movie.initializeMovies(); // key= query, genre, releaseYear, ratingFrom
-    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
-    protected Genres selectedGenre;
+
 
     @FXML
     public void switch_to_main_menu() {
@@ -55,17 +78,42 @@ public class HomeController implements Initializable {
         if (!mainBox.getChildren().contains(searchHbox)) {
             mainBox.getChildren().add(1, searchHbox);
         }
-        menuButton.setText("Home");
-    }
 
+        observableMovies.addAll(allMovies);         // add dummy data to observable list
+        // initialize UI stuff
+        movieListView.setItems(observableMovies);   // set data of observable list to list view
+        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
+
+        observableMovies.clear();
+        observableMovies.addAll(searchBtnAction(genreComboBox.getValue(), searchField.getText(), releaseYearComboBox.getValue(), ratingComboBox.getValue()));
+
+        menuButton.setText("Menu");
+    }
     @FXML
     private void switch_to_watchlist() {
+        List<Movie> watchlistMovieObjects = new ArrayList<>();
         if (searchHbox.getParent() != null) {
             ((Pane) searchHbox.getParent()).getChildren().remove(searchHbox);
+
+            try {
+                List<WatchlistMovieEntity> watchlistEntities = watchlistRepository.getWatchlist();
+
+                for (WatchlistMovieEntity entity : watchlistEntities) {
+                    MovieEntity movieEntity = movieRepo.getMovie(entity.getApiId());
+                    watchlistMovieObjects.add(MovieRepository.entityToMovie(movieEntity));
+                }
+            }catch (SQLException sqle){
+                System.out.println("SQLException "+sqle);
+            }
         }
+        observableMovies.clear();
+        observableMovies.addAll(watchlistMovieObjects);         // add dummy data to observable list
+        // initialize UI stuff
+        movieListView.setItems(observableMovies);   // set data of observable list to list view
+        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
+
         menuButton.setText("Watchlist");
     }
-
     @FXML
     private void switch_to_about_page() {
         System.out.println("Option 3 selected");
@@ -80,6 +128,14 @@ public class HomeController implements Initializable {
         movieListView.setItems(observableMovies);   // set data of observable list to list view
         movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
 
+        try {
+            movieRepo.addAllMovies(allMovies);
+            //movieRepo.removeAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        // DONE add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genres.values());
 
@@ -150,13 +206,13 @@ public class HomeController implements Initializable {
         return movieList.stream()
                 .mapToInt(movies -> movies.getTitle().length())
                 .max().orElse(0);
-    }
+   }
 
-    public long countMoviesFrom(List<Movie> movieList, String director) {
-        return movieList.stream().filter(m -> m.getDirectors().contains(director)).count();
-    }
+   public long countMoviesFrom(List<Movie> movieList, String director){
+        return movieList.stream().filter(m->m.getDirectors().contains(director)).count();
+   }
 
-    public List<Movie> getMoviesBetweenYears(List<Movie> movieList, int startYear, int endYear) {
-        return movieList.stream().filter(m -> m.getReleaseYear() >= startYear && m.getReleaseYear() <= endYear).toList();
-    }
+   public List<Movie> getMoviesBetweenYears(List<Movie> movieList, int startYear, int endYear){
+        return movieList.stream().filter(m->m.getReleaseYear()>=startYear&&m.getReleaseYear()<=endYear).toList();
+   }
 }

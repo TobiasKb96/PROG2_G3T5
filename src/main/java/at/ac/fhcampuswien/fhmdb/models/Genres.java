@@ -21,5 +21,6 @@ public enum Genres {
     SPORT,
     THRILLER,
     WAR,
-    WESTERN
+    WESTERN,
 }
+
