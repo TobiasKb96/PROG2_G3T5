@@ -15,7 +15,7 @@ public class DatabaseManager {
     public static final String password = "password";
     private static JdbcConnectionSource conn;
     private Dao<MovieEntity, Long> movieDao;
-    private Dao<WatchlistMovieEntity, Long> watchlistDao;
+    private Dao<WatchlistMovieEntity, String> watchlistDao;
     private static DatabaseManager instance;
 
     //Establish connection, create dao and create table if not yet available
@@ -52,7 +52,7 @@ public class DatabaseManager {
         return this.movieDao;
     }
 
-    public Dao<WatchlistMovieEntity, Long> getWatchlistDao(){
+    public Dao<WatchlistMovieEntity, String> getWatchlistDao(){
         return this.watchlistDao;
     }
 

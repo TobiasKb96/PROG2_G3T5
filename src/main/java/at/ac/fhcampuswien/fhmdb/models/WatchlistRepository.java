@@ -8,7 +8,7 @@ import java.util.List;
 
 //Providing the database functions
 public class WatchlistRepository {
-    Dao<WatchlistMovieEntity, Long> dao;
+    Dao<WatchlistMovieEntity, String> dao;
 
     public WatchlistRepository() throws DatabaseException{
         this.dao = DatabaseManager.getDatabaseInstance().getWatchlistDao();
@@ -32,8 +32,7 @@ public class WatchlistRepository {
 
     public void removeFromWatchlist(String apiId) throws DatabaseException{
         try {
-            List<WatchlistMovieEntity> movies = dao.queryForEq("apiId", apiId);
-            dao.delete(movies);
+            dao.deleteById(apiId);
         }
         catch (SQLException e) {
             throw new DatabaseException("Could not delete from watchlist");

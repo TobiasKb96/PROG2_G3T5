@@ -29,7 +29,6 @@ public MovieCell(ClickHandler addToWatchlist){
     });
 }
 
-    //TODO repository in movie cell ist nicht gut -> MovieCell Callback lambda expression die aufgerufen wird den der button geklickt wird (1:19:22 im Video)
     @Override
     protected void updateItem(Movie movie, boolean empty) {
         super.updateItem(movie, empty);
