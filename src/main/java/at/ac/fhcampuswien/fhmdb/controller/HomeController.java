@@ -261,7 +261,6 @@ public class HomeController implements Initializable {
         return movieList.stream().filter(m -> m.getReleaseYear() >= startYear && m.getReleaseYear() <= endYear).toList();
     }
 
-    @Override
     public void handleException(Exception e) {
         Alert alert = new Alert(Alert.AlertType.WARNING, e.getMessage());
         alert.showAndWait()
