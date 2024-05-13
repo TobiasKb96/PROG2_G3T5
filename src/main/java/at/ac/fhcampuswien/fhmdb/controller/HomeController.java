@@ -1,5 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.controller;
 
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.*;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.ui.WatchlistCell;
@@ -10,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -39,17 +42,7 @@ public class HomeController implements Initializable {
     public JFXButton sortBtn;
 
     public Map<String, Object> queryParams = new HashMap<>();
-
-    public List<Movie> allMovies = Movie.initializeMovies(); // key= query, genre, releaseYear, ratingFrom
-
-    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
-    public JFXComboBox releaseYearComboBox;
-    public JFXComboBox ratingComboBox;
-
-    protected Genres selectedGenre;
-
-    private MovieRepository movieRepo;
-
+    private final MovieRepository movieRepo;
     {
         try {
             movieRepo = new MovieRepository();
@@ -57,9 +50,26 @@ public class HomeController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    public List<Movie> allMovies; // key= query, genre, releaseYear, ratingFrom
+    {
+        try {
+            allMovies = Movie.initializeMovies();
+        } catch (MovieAPIException e) {
+            try {
+                    allMovies = MovieEntity.toMovies(movieRepo.getAllMovies());
+            }catch (SQLException sqle){
+                System.out.println("Could not load movies\n"+sqle);
+            }
+        }
+    }
+
+    private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
+    public JFXComboBox releaseYearComboBox;
+    public JFXComboBox ratingComboBox;
+
+    protected Genres selectedGenre;
 
     private WatchlistRepository watchlistRepository = new WatchlistRepository();
-
 
 
     @FXML
@@ -185,7 +195,13 @@ public class HomeController implements Initializable {
         queryParams.put("genre", genreToFilter);
         queryParams.put("releaseYear", releaseYear);
         queryParams.put("ratingFrom", rating);
-        return Movie.initializeMovies(queryParams);
+        try {
+            return Movie.initializeMovies(queryParams);
+        } catch (MovieAPIException e) {
+            System.out.println("Could not search for movies\n"+e);
+            List<Movie> tmp=new ArrayList<>(allMovies);
+            return tmp;
+        }
     }
 
     public void sortMovies_asc(List<Movie> movieList) {

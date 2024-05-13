@@ -4,7 +4,7 @@ package at.ac.fhcampuswien.fhmdb.controller;
 // Creation of URLs
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.models.MovieAPIException;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import com.google.gson.Gson;
 import okhttp3.*;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class MovieAPI {
 
         HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
                 .scheme("https")
-                .host("prog2.fh-campuswien.ac.at")
+                .host("prog2.h-campuswien.ac.at")
                 .addPathSegment("movies");
 
 

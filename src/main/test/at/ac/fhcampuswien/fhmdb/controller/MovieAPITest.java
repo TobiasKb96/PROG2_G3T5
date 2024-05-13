@@ -2,7 +2,7 @@ package at.ac.fhcampuswien.fhmdb.controller;
 
 import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.models.MovieAPIException;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

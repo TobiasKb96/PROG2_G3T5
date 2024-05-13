@@ -1,13 +1,17 @@
 package at.ac.fhcampuswien.fhmdb.exceptions;
 
+import java.io.IOException;
 
-public class MovieAPIException extends Exception {
-    public MovieAPIException() {
-        super("MovieAPI is not working");
-    }
-    public MovieAPIException(String message) {
+public class MovieAPIException extends IOException {
+
+    public MovieAPIException(){}
+    public MovieAPIException(String message){
         super(message);
     }
+    public MovieAPIException(Throwable cause){
+        super(cause);
+    }
+    public MovieAPIException(String message, Throwable cause){
+        super(message,cause);
+    }
 }
-
-

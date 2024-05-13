@@ -14,4 +14,5 @@ module at.ac.fhcampuswien.fhmdb {
     opens at.ac.fhcampuswien.fhmdb.controller to javafx.fxml;
     exports at.ac.fhcampuswien.fhmdb;
     opens at.ac.fhcampuswien.fhmdb to javafx.fxml;
+    opens at.ac.fhcampuswien.fhmdb.exceptions to com.google.gson, ormlite.jdbc;
 }

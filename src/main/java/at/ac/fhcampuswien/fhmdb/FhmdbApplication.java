@@ -12,7 +12,7 @@ import java.util.Objects;
 public class FhmdbApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        try {
+try {
             FXMLLoader fxmlLoader = new FXMLLoader(FhmdbApplication.class.getResource("home-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 890, 620);
             scene.getStylesheets().add(Objects.requireNonNull(FhmdbApplication.class.getResource("styles.css")).toExternalForm());
@@ -21,7 +21,7 @@ public class FhmdbApplication extends Application {
             stage.show();
         }catch (Exception e){
             //Cant use IOException cause getResource doesn´t throw it?
-            System.out.println("Could not load home-view.fxml");
+            System.out.println("Could not load home-view.fxml\n"+e);
         }
     }
 

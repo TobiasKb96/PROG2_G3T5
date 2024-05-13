@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.models;
 
 import at.ac.fhcampuswien.fhmdb.controller.MovieAPI;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 
 import java.util.*;
 
@@ -53,98 +54,47 @@ public class Movie {
     public Movie(Movie movie) {
     }
 
-    public String getTitle() {
-        try {
+    public String getTitle() throws NullPointerException{
             return title;
-        }catch (NullPointerException e){
-            System.out.println("Could not find Title of Movie\n"+e);
-        }
-        return null;
     }
 
-    public String getDescription() {
-        try {
+    public String getDescription() throws NullPointerException{
             return description;
-        }catch (NullPointerException e){
-            System.out.println("Could not find Description of Movie\n"+e);
-        }
-        return null;
     }
 
-    public String getId() {
-        try {
+    public String getId() throws NullPointerException{
             return id;
-        } catch (NullPointerException e) {
-            System.out.println("Could not find ID of Movie\n" + e);
-        }
-        return null;
     }
 
-    public String getImgUrl() {
-        try {
+    public String getImgUrl() throws NullPointerException{
             return imgUrl;
-        } catch (NullPointerException e) {
-            System.out.println("Could not find PosterUrl of Movie\n" + e);
-        }
-        return null;
     }
 
-    public int getLengthInMinutes() {
-        try {
+    public int getLengthInMinutes() throws NullPointerException{
             return lengthInMinutes;
-        } catch (NullPointerException e) {
-            System.out.println("Could not find Length of Movie\n" + e);
-        }
-        return -1;
     }
 
-    public List<Genres> getGenres() {
-        try {
+    public List<Genres> getGenres() throws NullPointerException{
             return genres;
-        }catch (NullPointerException e){
-            System.out.println("Could not find Genres of Movie\n"+e);
-        }
-        return null;
     }
 
-    public int getReleaseYear() {
-        try {
+    public int getReleaseYear() throws NullPointerException{
             return releaseYear;
-        }catch (NullPointerException e){
-            System.out.println("Could not find ReleaseYear of Movie\n"+e);
-        }
-        return -1;
     }
 
-    public float getRating() {
-        try {
+    public float getRating() throws NullPointerException{
             return rating;
-        }catch (NullPointerException e){
-            System.out.println("Could not find Ratings of Movie\n"+e);
-        }
-        return -1;
     }
 
-    public List<String> getMainCast() {
-        try {
+    public List<String> getMainCast() throws NullPointerException{
             return mainCast;
-        }catch (NullPointerException e){
-            System.out.println("Could not find Main Cast of Movie\n"+e);
-        }
-        return null;
     }
 
-    public List<String> getDirectors() {
-        try {
+    public List<String> getDirectors() throws NullPointerException{
             return directors;
-        }catch (NullPointerException e){
-            System.out.println("Could not find Directors of Movie\n"+e);
-        }
-        return null;
     }
 
-    public String getGenresListAsString() {
-        try {
+    public String getGenresListAsString() throws NullPointerException{
             StringBuilder out = new StringBuilder();
 
             for (Genres g : genres) {
@@ -153,31 +103,17 @@ public class Movie {
             out.delete(out.length() - 2, out.length());
 
             return out.toString();
-        }catch (NullPointerException e){
-            System.out.println("Could not get Genres\n"+e);
-        }
-        return null;
     }
 
-    public static List<Movie> initializeMovies(Map<String, Object> params) {
+    public static List<Movie> initializeMovies(Map<String, Object> params) throws MovieAPIException {
         MovieAPI movieAPI = new MovieAPI();
-        try {
         return movieAPI.jsonToMovieList(movieAPI.apiQuery(params));
-        }catch (MovieAPIException mae){
-            System.out.println(mae);
-            return null;
-        }
     }
 
-    public static List<Movie> initializeMovies() {
+    public static List<Movie> initializeMovies() throws MovieAPIException{
         MovieAPI movieAPI = new MovieAPI();
         Map<String, Object> emptyMap = new HashMap<>();
-        try {
         return movieAPI.jsonToMovieList(movieAPI.apiQuery(emptyMap));
-        }catch (MovieAPIException mae){
-            System.out.println(mae);
-            return null;
-        }
     }
 
     @Override

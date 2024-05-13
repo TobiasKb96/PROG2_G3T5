@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.fhmdb.controller;
 
 import at.ac.fhcampuswien.fhmdb.controller.HomeController;
+import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,12 @@ class HomeControllerTest {
     void test_for_searchBtnAction() {
         //given
         HomeController controller = new HomeController();
-        List<Movie> actualList = Movie.initializeMovies();
+        List<Movie> actualList = null;
+        try {
+            actualList = Movie.initializeMovies();
+        } catch (MovieAPIException e) {
+            throw new RuntimeException(e);
+        }
         Genres genreToFilter = Genres.ACTION;
         List<Movie> expectedList = new ArrayList<>();
         expectedList.add(new Movie("399f8e7e-7ab7-4e22-94db-3d068fba2ac2","Avatar",
@@ -77,8 +83,14 @@ class HomeControllerTest {
         //given
         HomeController controller = new HomeController();
         Map<String, Object> emptyMap = new HashMap<>();
-        List<Movie> actualList = Movie.initializeMovies(emptyMap);
-        List<Movie> expectedList = Movie.initializeMovies(emptyMap);
+        List<Movie> actualList = null;
+        List<Movie> expectedList=null;
+        try {
+            actualList = Movie.initializeMovies(emptyMap);
+            expectedList = Movie.initializeMovies(emptyMap);
+        } catch (MovieAPIException e) {
+            throw new RuntimeException(e);
+        }
         //when
         controller.searchBtnAction(null, null, null, null);
         //then
@@ -89,7 +101,12 @@ class HomeControllerTest {
     void most_frequently_occurring_person(){
         //given
         HomeController controller = new HomeController();
-        List<Movie> actualList = Movie.initializeMovies();
+        List<Movie> actualList = null;
+        try {
+            actualList = Movie.initializeMovies();
+        } catch (MovieAPIException e) {
+            throw new RuntimeException(e);
+        }
         String expectedActor = "Leonardo DiCaprio";
         //when
         String actualActor = controller.getMostPopularActor(actualList);
@@ -101,7 +118,12 @@ class HomeControllerTest {
     void number_of_letters_of_longest_movie_title(){
         //given
         HomeController controller = new HomeController();
-        List<Movie> actualList = Movie.initializeMovies();
+        List<Movie> actualList = null;
+        try {
+            actualList = Movie.initializeMovies();
+        } catch (MovieAPIException e) {
+            throw new RuntimeException(e);
+        }
         //Star Wars: Episode V - The Empire Strikes Back
         int expectedTitleLength = 46;
         //when
