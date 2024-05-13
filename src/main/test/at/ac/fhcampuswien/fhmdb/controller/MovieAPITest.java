@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.fhmdb.controller;
 
 import at.ac.fhcampuswien.fhmdb.models.Genres;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.MovieAPIException;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ class MovieAPITest {
         //then
         assertEquals(expectedUrl, actualUrl);
     }
+
     @Test
     void setUrlNoParams() {
         //given
@@ -61,11 +63,15 @@ class MovieAPITest {
         testMap.put("releaseYear", "2009");
 
         //when
-
-        String actualResponse = movieAPI.apiQuery(testMap);
-        //then
-        assertEquals(expectedResponse, actualResponse);
+        try {
+            String actualResponse = movieAPI.apiQuery(testMap);
+            //then
+            assertEquals(expectedResponse, actualResponse);
+        } catch (MovieAPIException mae) {
+            fail(mae);
+        }
     }
+
     @Test
     void apiQueryWithNoHit() {
         //given
@@ -78,10 +84,15 @@ class MovieAPITest {
         testMap.put("ratingFrom", "9.5");
         testMap.put("releaseYear", "1900");
         //when
-        String actualResponse = movieAPI.apiQuery(testMap);
-        //then
-        assertEquals(expectedResponse, actualResponse);
+        try {
+            String actualResponse = movieAPI.apiQuery(testMap);
+            //then
+            assertEquals(expectedResponse, actualResponse);
+        } catch (MovieAPIException mae) {
+            fail(mae);
+        }
     }
+
     @Test
     void jsonToMovieList() {
         List<Movie> expectedMovies = new ArrayList<>();
@@ -107,8 +118,12 @@ class MovieAPITest {
         ));
         //when
         List<Movie> actualMovies = new ArrayList<>();
+        try {
         actualMovies = movieAPI.jsonToMovieList(movieAPI.apiQuery(testMap));
         //then
         assertEquals(expectedMovies, actualMovies);
+        }catch (MovieAPIException mae){
+            fail(mae);
+        }
     }
 }

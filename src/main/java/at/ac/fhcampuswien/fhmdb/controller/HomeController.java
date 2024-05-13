@@ -80,6 +80,7 @@ public class HomeController implements Initializable {
             mainBox.getChildren().add(1, searchHbox);
         }
 
+        try {
         observableMovies.addAll(allMovies);         // add dummy data to observable list
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
@@ -87,6 +88,11 @@ public class HomeController implements Initializable {
 
         observableMovies.clear();
         observableMovies.addAll(searchBtnAction(genreComboBox.getValue(), searchField.getText(), releaseYearComboBox.getValue(), ratingComboBox.getValue()));
+        }catch (IllegalArgumentException iae){
+            System.out.println("Illegal Argument caused Exception:\n"+genreComboBox.getValue()+" "+ searchField.getText()+" "+ releaseYearComboBox.getValue()+" "+ ratingComboBox.getValue()+"\n"+iae);
+        }catch (Exception e){
+            System.out.println("Caught Exception\n"+e);
+        }
 
         menuButton.setText("Menu");
     }
@@ -136,7 +142,6 @@ public class HomeController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        // DONE add genre filter items with genreComboBox.getItems().addAll(...)
         genreComboBox.setPromptText("Filter by Genre");
         genreComboBox.getItems().addAll(Genres.values());
 
