@@ -94,7 +94,7 @@ public class HomeController implements Initializable {
         List<Movie> watchlistMovieObjects = new ArrayList<>();
         if (searchHbox.getParent() != null) {
             ((Pane) searchHbox.getParent()).getChildren().remove(searchHbox);
-
+        }
             try {
                 List<WatchlistMovieEntity> watchlistEntities = watchlistRepository.getWatchlist();
 
@@ -105,7 +105,7 @@ public class HomeController implements Initializable {
             }catch (SQLException sqle){
                 System.out.println("SQLException "+sqle);
             }
-        }
+
         observableMovies.clear();
         observableMovies.addAll(watchlistMovieObjects);         // add dummy data to observable list
         // initialize UI stuff
