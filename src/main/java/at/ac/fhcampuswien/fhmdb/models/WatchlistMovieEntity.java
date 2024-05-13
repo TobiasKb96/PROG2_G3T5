@@ -10,7 +10,7 @@ public class WatchlistMovieEntity{
 //    @DatabaseField()
 //    private long id;
 
-    @DatabaseField(id = true, unique = true)
+    @DatabaseField(id = true)
     private String apiId;
 
     public  WatchlistMovieEntity(){

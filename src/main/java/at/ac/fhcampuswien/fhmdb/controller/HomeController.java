@@ -69,8 +69,8 @@ public class HomeController implements Initializable {
     {
         try {
             allMovies = Movie.initializeMovies();
-        } catch (MovieAPIException mai) {
-            handleException(mai);
+        } catch (MovieAPIException mae) {
+            handleException(mae);
             try {
                 allMovies = MovieEntity.toMovies(movieRepo.getAllMovies());
             } catch (DatabaseException dbe) {
@@ -261,6 +261,7 @@ public class HomeController implements Initializable {
         return movieList.stream().filter(m -> m.getReleaseYear() >= startYear && m.getReleaseYear() <= endYear).toList();
     }
 
+    @Override
     public void handleException(Exception e) {
         Alert alert = new Alert(Alert.AlertType.WARNING, e.getMessage());
         alert.showAndWait()
