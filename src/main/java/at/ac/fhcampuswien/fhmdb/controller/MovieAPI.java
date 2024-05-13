@@ -4,6 +4,7 @@ package at.ac.fhcampuswien.fhmdb.controller;
 // Creation of URLs
 
 import at.ac.fhcampuswien.fhmdb.models.Movie;
+import at.ac.fhcampuswien.fhmdb.models.MovieAPIException;
 import com.google.gson.Gson;
 import okhttp3.*;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class MovieAPI {
     }
 
 
-    public String apiQuery(Map<String, Object> params) {
+    public String apiQuery(Map<String, Object> params) throws MovieAPIException {
         setUrl(params);
         OkHttpClient client = new OkHttpClient();
 
@@ -48,8 +49,8 @@ public class MovieAPI {
         try {
             response = client.newCall(request).execute();
             return response.body().string();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ioe) {
+            throw new MovieAPIException("MovieAPIException"+ioe);
         }
     }
 

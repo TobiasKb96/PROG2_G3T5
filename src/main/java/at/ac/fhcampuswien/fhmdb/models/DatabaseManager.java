@@ -18,14 +18,14 @@ public class DatabaseManager {
     private static DatabaseManager instance;
 
     //Establish connection, create dao and create table if not yet available
-    public DatabaseManager(){
+    public DatabaseManager() throws DatabaseException{
         try {
             createConnectionSource();
             movieDao = DaoManager.createDao(conn, MovieEntity.class);
             watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
             createTables();
-        }catch (SQLException e) {
-        System.out.println("Problem with Database initialisation");
+        }catch (SQLException sqle) {
+            throw new DatabaseException("Problem with Database initialisation\n"+sqle);
         }
     }
 
@@ -49,7 +49,11 @@ public class DatabaseManager {
     //Singleton Patter
     public static DatabaseManager getDatabaseInstance(){
         if(instance == null){
+            try {
             instance = new DatabaseManager();
+            }catch (DatabaseException de){
+                System.out.println("Could not create Database\n"+de);
+            }
         }
         return instance;
     }

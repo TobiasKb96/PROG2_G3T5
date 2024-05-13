@@ -67,8 +67,12 @@ public class MovieCell extends ListCell<Movie> {
             // layout
             title.fontProperty().set(title.getFont().font(20));
             releaseYear.fontProperty().set(releaseYear.getFont().font(12));
+            try{
             detail.setMaxWidth(this.getScene().getWidth() - 30);
             detail.setWrapText(true);
+            }catch (Exception e){
+                System.out.println("Exception in MovieCell\n"+e);
+            }
 
             //first line
             firstline.setPadding(new Insets(0));

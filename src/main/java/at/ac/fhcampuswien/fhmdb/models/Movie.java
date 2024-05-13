@@ -161,13 +161,23 @@ public class Movie {
 
     public static List<Movie> initializeMovies(Map<String, Object> params) {
         MovieAPI movieAPI = new MovieAPI();
+        try {
         return movieAPI.jsonToMovieList(movieAPI.apiQuery(params));
+        }catch (MovieAPIException mae){
+            System.out.println(mae);
+            return null;
+        }
     }
 
     public static List<Movie> initializeMovies() {
         MovieAPI movieAPI = new MovieAPI();
         Map<String, Object> emptyMap = new HashMap<>();
+        try {
         return movieAPI.jsonToMovieList(movieAPI.apiQuery(emptyMap));
+        }catch (MovieAPIException mae){
+            System.out.println(mae);
+            return null;
+        }
     }
 
     @Override
