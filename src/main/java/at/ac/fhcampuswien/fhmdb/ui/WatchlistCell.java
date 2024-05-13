@@ -1,9 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
-import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.models.MovieRepository;
-import at.ac.fhcampuswien.fhmdb.models.WatchlistRepository;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,11 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.sql.SQLException;
-
 public class WatchlistCell extends ListCell<Movie> {
 
-    private ExceptionHandler exceptionHandler;
     private final Label title = new Label();
     private final Label releaseYear = new Label();
     private final Label detail = new Label();
@@ -31,17 +25,12 @@ public class WatchlistCell extends ListCell<Movie> {
     private final HBox thirdline = new HBox(genres, rating);
     private final VBox layout = new VBox(firstline, secondline, thirdline);
 
-    MovieRepository movieRepository;
-
-    {
-        try {
-            movieRepository = new MovieRepository();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public WatchlistCell(ExceptionHandler exceptionHandler) {
-        this.exceptionHandler = exceptionHandler;
+    public WatchlistCell(ClickHandler removeFromWatchlist){
+        watchlistButton.setOnMouseClicked(clickEvent -> {
+            removeFromWatchlist.onClick(getItem());
+            setText(null);
+            setGraphic(null);
+        });
     }
 
     //TODO repository in movie cell ist nicht gut -> MovieCell Callback lambda expression die aufgerufen wird den der button geklickt wird (1:19:22 im Video)
@@ -93,21 +82,6 @@ public class WatchlistCell extends ListCell<Movie> {
             layout.spacingProperty().set(10);
             layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
             setGraphic(layout);
-
-
-            watchlistButton.setOnMouseClicked(mouseEvent -> {
-                try {
-                    WatchlistRepository watchlistRepository = new WatchlistRepository();
-                    watchlistRepository.removeFromWatchlist(movie.getId());
-                    setText(null);
-                    setGraphic(null);
-                } catch (DatabaseException dbe) {
-                    if(exceptionHandler != null){
-                        exceptionHandler.handleException(dbe);
-                    }
-                }
-
-            });
 
         }
     }

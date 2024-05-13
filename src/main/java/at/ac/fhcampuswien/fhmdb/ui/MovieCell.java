@@ -1,10 +1,6 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
-import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
-import at.ac.fhcampuswien.fhmdb.models.MovieRepository;
-import at.ac.fhcampuswien.fhmdb.models.WatchlistMovieEntity;
-import at.ac.fhcampuswien.fhmdb.models.WatchlistRepository;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.Background;
@@ -15,7 +11,6 @@ import javafx.scene.paint.Color;
 
 import java.sql.SQLException;
 public class MovieCell extends ListCell<Movie> {
-    private ExceptionHandler exceptionHandler;
     private final Label title = new Label();
     private final Label releaseYear = new Label();
     private final Label detail = new Label();
@@ -28,18 +23,11 @@ public class MovieCell extends ListCell<Movie> {
     private final HBox thirdline = new HBox(genres, rating);
     private final VBox layout = new VBox(firstline, secondline, thirdline);
 
-    MovieRepository movieRepository;
-
-    {
-        try {
-            movieRepository = new MovieRepository();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public MovieCell(ExceptionHandler exceptionHandler) {
-        this.exceptionHandler = exceptionHandler;
-    }
+public MovieCell(ClickHandler addToWatchlist){
+    watchlistButton.setOnMouseClicked(clickEvent -> {
+        addToWatchlist.onClick(getItem());
+    });
+}
 
     //TODO repository in movie cell ist nicht gut -> MovieCell Callback lambda expression die aufgerufen wird den der button geklickt wird (1:19:22 im Video)
     @Override
@@ -95,20 +83,6 @@ public class MovieCell extends ListCell<Movie> {
             layout.alignmentProperty().set(javafx.geometry.Pos.CENTER_LEFT);
             setGraphic(layout);
 
-
-            watchlistButton.setOnMouseClicked(mouseEvent -> {
-                try {
-                        WatchlistRepository watchlistRepository = new WatchlistRepository();
-                        //movieRepository.addToMovies(getItem());
-                        watchlistRepository.addToWatchlist(new WatchlistMovieEntity(movie.getId()));
-                        //watchlistRepository.removeFromMovies(movie.getId());
-                        //movieRepository.removeAll();
-                } catch (DatabaseException dbe) {
-                    if (exceptionHandler != null) {
-                        exceptionHandler.handleException(dbe);
-                    }
-                }
-            });
 
         }
     }

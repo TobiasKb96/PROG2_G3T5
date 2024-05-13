@@ -3,7 +3,7 @@ package at.ac.fhcampuswien.fhmdb.controller;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.*;
-import at.ac.fhcampuswien.fhmdb.ui.ExceptionHandler;
+import at.ac.fhcampuswien.fhmdb.ui.ClickHandler;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.ui.WatchlistCell;
 import com.jfoenix.controls.JFXButton;
@@ -26,7 +26,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 //DONE Konstantin Calling the API instead of the static lists
-public class HomeController implements Initializable, ExceptionHandler {
+public class HomeController implements Initializable {
     @FXML
     public JFXButton searchBtn;
 
@@ -44,6 +44,7 @@ public class HomeController implements Initializable, ExceptionHandler {
 
     public Map<String, Object> queryParams = new HashMap<>();
     private final MovieRepository movieRepo;
+
     {
         try {
             movieRepo = new MovieRepository();
@@ -52,6 +53,7 @@ public class HomeController implements Initializable, ExceptionHandler {
             throw new RuntimeException(dbe);
         }
     }
+
     private WatchlistRepository watchlistRepository;
 
     {
@@ -61,15 +63,17 @@ public class HomeController implements Initializable, ExceptionHandler {
             handleException(dbe);
         }
     }
+
     public List<Movie> allMovies; // key= query, genre, releaseYear, ratingFrom
+
     {
         try {
             allMovies = Movie.initializeMovies();
         } catch (MovieAPIException mai) {
             handleException(mai);
             try {
-                    allMovies = MovieEntity.toMovies(movieRepo.getAllMovies());
-            }catch (DatabaseException dbe){
+                allMovies = MovieEntity.toMovies(movieRepo.getAllMovies());
+            } catch (DatabaseException dbe) {
                 handleException(dbe);
             }
         }
@@ -99,48 +103,56 @@ public class HomeController implements Initializable, ExceptionHandler {
         if (!mainBox.getChildren().contains(searchHbox)) {
             mainBox.getChildren().add(1, searchHbox);
         }
+        initCellFactoryMain();
 
         try {
-        observableMovies.addAll(allMovies);         // add dummy data to observable list
-        // initialize UI stuff
-        movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell(this)); // use custom cell factory to display data
+            observableMovies.addAll(allMovies);         // add dummy data to observable list
+            // initialize UI stuff
+            movieListView.setItems(observableMovies);   // set data of observable list to list view
 
-        observableMovies.clear();
-        observableMovies.addAll(searchBtnAction(genreComboBox.getValue(), searchField.getText(), releaseYearComboBox.getValue(), ratingComboBox.getValue()));
-        }catch (IllegalArgumentException iae){
-            System.out.println("Illegal Argument caused Exception:\n"+genreComboBox.getValue()+" "+ searchField.getText()+" "+ releaseYearComboBox.getValue()+" "+ ratingComboBox.getValue()+"\n"+iae);
-        }catch (Exception e){
-            System.out.println("Caught Exception\n"+e);
+            //movieListView.setCellFactory(movieListView -> new MovieCell(this)); // use custom cell factory to display data
+
+            observableMovies.clear();
+            observableMovies.addAll(searchBtnAction(genreComboBox.getValue(), searchField.getText(), releaseYearComboBox.getValue(), ratingComboBox.getValue()));
+        } catch (IllegalArgumentException iae) {
+            System.out.println("Illegal Argument caused Exception:\n" + genreComboBox.getValue() + " " + searchField.getText() + " " + releaseYearComboBox.getValue() + " " + ratingComboBox.getValue() + "\n" + iae);
+        } catch (Exception e) {
+            System.out.println("Caught Exception\n" + e);
         }
 
         menuButton.setText("Menu");
     }
+
     @FXML
     private void switch_to_watchlist() {
         List<Movie> watchlistMovieObjects = new ArrayList<>();
         if (searchHbox.getParent() != null) {
             ((Pane) searchHbox.getParent()).getChildren().remove(searchHbox);
         }
-            try {
-                List<WatchlistMovieEntity> watchlistEntities = watchlistRepository.getWatchlist();
 
-                for (WatchlistMovieEntity entity : watchlistEntities) {
-                    MovieEntity movieEntity = movieRepo.getMovie(entity.getApiId());
-                    watchlistMovieObjects.add(MovieRepository.entityToMovie(movieEntity));
-                }
-            }catch (DatabaseException dbe){
-                System.out.println("SQLException "+dbe);
+        initCellFactoryWatchlist();
+
+        try {
+            List<WatchlistMovieEntity> watchlistEntities = watchlistRepository.getWatchlist();
+
+            for (WatchlistMovieEntity entity : watchlistEntities) {
+                MovieEntity movieEntity = movieRepo.getMovie(entity.getApiId());
+                watchlistMovieObjects.add(MovieRepository.entityToMovie(movieEntity));
             }
+        } catch (DatabaseException dbe) {
+            handleException(dbe);
+        }
 
         observableMovies.clear();
         observableMovies.addAll(watchlistMovieObjects);         // add dummy data to observable list
         // initialize UI stuff
-        movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new WatchlistCell(this)); // use custom cell factory to display data
+
+
+        //  movieListView.setCellFactory(movieListView -> new WatchlistCell()); // use custom cell factory to display data
 
         menuButton.setText("Watchlist");
     }
+
     @FXML
     private void switch_to_about_page() {
         System.out.println("Option 3 selected");
@@ -153,7 +165,8 @@ public class HomeController implements Initializable, ExceptionHandler {
         observableMovies.addAll(allMovies);         // add dummy data to observable list
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell(this)); // use custom cell factory to display data
+
+        initCellFactoryMain();
 
         try {
             movieRepo.addAllMovies(allMovies);
@@ -208,8 +221,8 @@ public class HomeController implements Initializable, ExceptionHandler {
         try {
             return Movie.initializeMovies(queryParams);
         } catch (MovieAPIException e) {
-            System.out.println("Could not search for movies\n"+e);
-            List<Movie> tmp=new ArrayList<>(allMovies);
+            System.out.println("Could not search for movies\n" + e);
+            List<Movie> tmp = new ArrayList<>(allMovies);
             return tmp;
         }
     }
@@ -238,21 +251,43 @@ public class HomeController implements Initializable, ExceptionHandler {
         return movieList.stream()
                 .mapToInt(movies -> movies.getTitle().length())
                 .max().orElse(0);
-   }
+    }
 
-   public long countMoviesFrom(List<Movie> movieList, String director){
-        return movieList.stream().filter(m->m.getDirectors().contains(director)).count();
-   }
+    public long countMoviesFrom(List<Movie> movieList, String director) {
+        return movieList.stream().filter(m -> m.getDirectors().contains(director)).count();
+    }
 
-   public List<Movie> getMoviesBetweenYears(List<Movie> movieList, int startYear, int endYear){
-        return movieList.stream().filter(m->m.getReleaseYear()>=startYear&&m.getReleaseYear()<=endYear).toList();
-   }
+    public List<Movie> getMoviesBetweenYears(List<Movie> movieList, int startYear, int endYear) {
+        return movieList.stream().filter(m -> m.getReleaseYear() >= startYear && m.getReleaseYear() <= endYear).toList();
+    }
 
-    @Override
     public void handleException(Exception e) {
         Alert alert = new Alert(Alert.AlertType.WARNING, e.getMessage());
         alert.showAndWait()
                 .filter(response -> response == ButtonType.OK)
                 .ifPresent(response -> System.out.println());
+    }
+
+    public void initCellFactoryMain() {
+        ClickHandler<Movie> addToWatchList = (movie) -> {
+            try {
+                watchlistRepository.addToWatchlist(new WatchlistMovieEntity(movie.getId()));
+            } catch (DatabaseException dbe) {
+                handleException(dbe);
+            }
+        };
+        movieListView.setCellFactory(movieListView -> new MovieCell(addToWatchList));
+    }
+
+    public void initCellFactoryWatchlist() {
+        ClickHandler<Movie> removeFromWatchList = (movie) -> {
+            try {
+                watchlistRepository.removeFromWatchlist(movie.getId());
+
+            } catch (DatabaseException dbe) {
+                handleException(dbe);
+            }
+        };
+        movieListView.setCellFactory(movieListView -> new WatchlistCell(removeFromWatchList));
     }
 }
