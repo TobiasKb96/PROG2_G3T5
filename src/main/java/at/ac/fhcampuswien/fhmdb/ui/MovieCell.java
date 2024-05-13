@@ -41,7 +41,6 @@ public class MovieCell extends ListCell<Movie> {
         this.exceptionHandler = exceptionHandler;
     }
 
-    //TODO repository in movie cell ist nicht gut -> MovieCell Callback lambda expression die aufgerufen wird den der button geklickt wird (1:19:22 im Video)
     @Override
     protected void updateItem(Movie movie, boolean empty) {
         super.updateItem(movie, empty);
@@ -99,10 +98,7 @@ public class MovieCell extends ListCell<Movie> {
             watchlistButton.setOnMouseClicked(mouseEvent -> {
                 try {
                         WatchlistRepository watchlistRepository = new WatchlistRepository();
-                        //movieRepository.addToMovies(getItem());
                         watchlistRepository.addToWatchlist(new WatchlistMovieEntity(movie.getId()));
-                        //watchlistRepository.removeFromMovies(movie.getId());
-                        //movieRepository.removeAll();
                 } catch (DatabaseException dbe) {
                     if (exceptionHandler != null) {
                         exceptionHandler.handleException(dbe);

@@ -41,13 +41,13 @@ public class MovieEntity {
 //
 //    }
 
-    public static List<MovieEntity> fromMovies (List<Movie> movies) {
-        List<MovieEntity> entityList = new ArrayList<>();
-        for(Movie movie : movies){
-            entityList.add(MovieRepository.movieToEntity(movie));
-        }
-        return entityList;
-    }
+//    public static List<MovieEntity> fromMovies (List<Movie> movies) {
+//        List<MovieEntity> entityList = new ArrayList<>();
+//        for(Movie movie : movies){
+//            entityList.add(MovieRepository.movieToEntity(movie));
+//        }
+//        return entityList;
+//    }
 
     public static List<Movie> toMovies (List<MovieEntity> movieEntities) {
         List<Movie> movieList = new ArrayList<>();

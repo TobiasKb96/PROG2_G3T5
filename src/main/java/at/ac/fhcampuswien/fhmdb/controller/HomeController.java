@@ -80,7 +80,6 @@ public class HomeController implements Initializable, ExceptionHandler {
     public JFXComboBox releaseYearComboBox;
     public JFXComboBox ratingComboBox;
 
-    protected Genres selectedGenre;
 
 
     @FXML
@@ -93,8 +92,6 @@ public class HomeController implements Initializable, ExceptionHandler {
 
     @FXML
     public void switch_to_main_menu() {
-        System.out.println("Option 1 selected");
-        // Implement your logic here for Option 1
 
         if (!mainBox.getChildren().contains(searchHbox)) {
             mainBox.getChildren().add(1, searchHbox);
@@ -116,7 +113,7 @@ public class HomeController implements Initializable, ExceptionHandler {
 
         menuButton.setText("Menu");
     }
-    //TODO from movie funktion verwenden
+
     @FXML
     private void switch_to_watchlist() {
         List<Movie> watchlistMovieObjects = new ArrayList<>();
@@ -144,8 +141,6 @@ public class HomeController implements Initializable, ExceptionHandler {
     }
     @FXML
     private void switch_to_about_page() {
-        System.out.println("Option 3 selected");
-        // Implement your logic here for Option 1
         menuButton.setText("About");
     }
 
@@ -158,7 +153,6 @@ public class HomeController implements Initializable, ExceptionHandler {
 
         try {
             movieRepo.addAllMovies(allMovies);
-            //movieRepo.removeAll();
         } catch (DatabaseException dbe) {
             handleException(dbe);
         }
