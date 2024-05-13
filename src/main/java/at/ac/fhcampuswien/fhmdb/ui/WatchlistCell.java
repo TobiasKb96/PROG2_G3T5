@@ -1,8 +1,8 @@
 package at.ac.fhcampuswien.fhmdb.ui;
 
+import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.models.Movie;
 import at.ac.fhcampuswien.fhmdb.models.MovieRepository;
-import at.ac.fhcampuswien.fhmdb.models.WatchlistMovieEntity;
 import at.ac.fhcampuswien.fhmdb.models.WatchlistRepository;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -17,6 +17,8 @@ import javafx.scene.paint.Color;
 import java.sql.SQLException;
 
 public class WatchlistCell extends ListCell<Movie> {
+
+    private ExceptionHandler exceptionHandler;
     private final Label title = new Label();
     private final Label releaseYear = new Label();
     private final Label detail = new Label();
@@ -38,7 +40,9 @@ public class WatchlistCell extends ListCell<Movie> {
             throw new RuntimeException(e);
         }
     }
-
+    public WatchlistCell(ExceptionHandler exceptionHandler) {
+        this.exceptionHandler = exceptionHandler;
+    }
 
     //TODO repository in movie cell ist nicht gut -> MovieCell Callback lambda expression die aufgerufen wird den der button geklickt wird (1:19:22 im Video)
     @Override
@@ -92,10 +96,17 @@ public class WatchlistCell extends ListCell<Movie> {
 
 
             watchlistButton.setOnMouseClicked(mouseEvent -> {
-                WatchlistRepository watchlistRepository = new WatchlistRepository();
-                        watchlistRepository.removeFromMovies(movie.getId());
-                        setText(null);
-                        setGraphic(null);
+                try {
+                    WatchlistRepository watchlistRepository = new WatchlistRepository();
+                    watchlistRepository.removeFromWatchlist(movie.getId());
+                    setText(null);
+                    setGraphic(null);
+                } catch (DatabaseException dbe) {
+                    if(exceptionHandler != null){
+                        exceptionHandler.handleException(dbe);
+                    }
+                }
+
             });
 
         }

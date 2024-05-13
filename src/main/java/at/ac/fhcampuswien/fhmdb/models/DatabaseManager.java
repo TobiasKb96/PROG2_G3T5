@@ -26,17 +26,26 @@ public class DatabaseManager {
             watchlistDao = DaoManager.createDao(conn, WatchlistMovieEntity.class);
             createTables();
         }catch (SQLException sqle) {
-            throw new DatabaseException("Problem with Database initialisation\n"+sqle);
+            throw new DatabaseException("Problem with Database initialisation"+sqle);
         }
     }
 
-    private static void createConnectionSource() throws SQLException {
-        conn = new JdbcConnectionSource(DB_URL, username, password);
+    private static void createConnectionSource() throws DatabaseException
+    {
+        try {
+            conn = new JdbcConnectionSource(DB_URL, username, password);
+        } catch (SQLException sqle) {
+            throw new DatabaseException("Connection source could not be created\n"+sqle);
+        }
     }
 
-    private static void createTables()throws SQLException{
-        TableUtils.createTableIfNotExists(conn, MovieEntity.class);
-        TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
+    private static void createTables()throws DatabaseException{
+        try {
+            TableUtils.createTableIfNotExists(conn, MovieEntity.class);
+            TableUtils.createTableIfNotExists(conn, WatchlistMovieEntity.class);
+        } catch (SQLException e) {
+            throw new DatabaseException("Could not create Tables");
+        }
     }
 
     public Dao<MovieEntity, Long> getMovieDao(){
@@ -48,13 +57,9 @@ public class DatabaseManager {
     }
 
     //Singleton Patter
-    public static DatabaseManager getDatabaseInstance(){
+    public static DatabaseManager getDatabaseInstance() throws DatabaseException{
         if(instance == null){
-            try {
             instance = new DatabaseManager();
-            }catch (DatabaseException de){
-                System.out.println("Could not create Database\n"+de);
-            }
         }
         return instance;
     }

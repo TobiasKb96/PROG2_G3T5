@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.fhmdb.controller;
 import at.ac.fhcampuswien.fhmdb.exceptions.DatabaseException;
 import at.ac.fhcampuswien.fhmdb.exceptions.MovieAPIException;
 import at.ac.fhcampuswien.fhmdb.models.*;
+import at.ac.fhcampuswien.fhmdb.ui.ExceptionHandler;
 import at.ac.fhcampuswien.fhmdb.ui.MovieCell;
 import at.ac.fhcampuswien.fhmdb.ui.WatchlistCell;
 import com.jfoenix.controls.JFXButton;
@@ -13,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -20,12 +22,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 //DONE Konstantin Calling the API instead of the static lists
-public class HomeController implements Initializable {
+public class HomeController implements Initializable, ExceptionHandler {
     @FXML
     public JFXButton searchBtn;
 
@@ -46,30 +47,40 @@ public class HomeController implements Initializable {
     {
         try {
             movieRepo = new MovieRepository();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (DatabaseException dbe) {
+            handleException(dbe);
+            throw new RuntimeException(dbe);
+        }
+    }
+    private WatchlistRepository watchlistRepository;
+
+    {
+        try {
+            watchlistRepository = new WatchlistRepository();
+        } catch (DatabaseException dbe) {
+            handleException(dbe);
         }
     }
     public List<Movie> allMovies; // key= query, genre, releaseYear, ratingFrom
     {
         try {
             allMovies = Movie.initializeMovies();
-        } catch (MovieAPIException e) {
+        } catch (MovieAPIException mai) {
+            handleException(mai);
             try {
                     allMovies = MovieEntity.toMovies(movieRepo.getAllMovies());
-            }catch (SQLException sqle){
-                System.out.println("Could not load movies\n"+sqle);
+            }catch (DatabaseException dbe){
+                handleException(dbe);
             }
         }
     }
+
 
     private final ObservableList<Movie> observableMovies = FXCollections.observableArrayList();   // automatically updates corresponding UI elements when underlying data changes
     public JFXComboBox releaseYearComboBox;
     public JFXComboBox ratingComboBox;
 
     protected Genres selectedGenre;
-
-    private WatchlistRepository watchlistRepository = new WatchlistRepository();
 
 
     @FXML
@@ -78,7 +89,6 @@ public class HomeController implements Initializable {
     private VBox mainBox;
     @FXML
     private MenuButton menuButton;
-
 
 
     @FXML
@@ -94,7 +104,7 @@ public class HomeController implements Initializable {
         observableMovies.addAll(allMovies);         // add dummy data to observable list
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
+        movieListView.setCellFactory(movieListView -> new MovieCell(this)); // use custom cell factory to display data
 
         observableMovies.clear();
         observableMovies.addAll(searchBtnAction(genreComboBox.getValue(), searchField.getText(), releaseYearComboBox.getValue(), ratingComboBox.getValue()));
@@ -119,15 +129,15 @@ public class HomeController implements Initializable {
                     MovieEntity movieEntity = movieRepo.getMovie(entity.getApiId());
                     watchlistMovieObjects.add(MovieRepository.entityToMovie(movieEntity));
                 }
-            }catch (SQLException sqle){
-                System.out.println("SQLException "+sqle);
+            }catch (DatabaseException dbe){
+                System.out.println("SQLException "+dbe);
             }
 
         observableMovies.clear();
         observableMovies.addAll(watchlistMovieObjects);         // add dummy data to observable list
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new WatchlistCell()); // use custom cell factory to display data
+        movieListView.setCellFactory(movieListView -> new WatchlistCell(this)); // use custom cell factory to display data
 
         menuButton.setText("Watchlist");
     }
@@ -143,13 +153,13 @@ public class HomeController implements Initializable {
         observableMovies.addAll(allMovies);         // add dummy data to observable list
         // initialize UI stuff
         movieListView.setItems(observableMovies);   // set data of observable list to list view
-        movieListView.setCellFactory(movieListView -> new MovieCell()); // use custom cell factory to display data
+        movieListView.setCellFactory(movieListView -> new MovieCell(this)); // use custom cell factory to display data
 
         try {
             movieRepo.addAllMovies(allMovies);
             //movieRepo.removeAll();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (DatabaseException dbe) {
+            handleException(dbe);
         }
 
         genreComboBox.setPromptText("Filter by Genre");
@@ -237,4 +247,12 @@ public class HomeController implements Initializable {
    public List<Movie> getMoviesBetweenYears(List<Movie> movieList, int startYear, int endYear){
         return movieList.stream().filter(m->m.getReleaseYear()>=startYear&&m.getReleaseYear()<=endYear).toList();
    }
+
+    @Override
+    public void handleException(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.WARNING, e.getMessage());
+        alert.showAndWait()
+                .filter(response -> response == ButtonType.OK)
+                .ifPresent(response -> System.out.println());
+    }
 }

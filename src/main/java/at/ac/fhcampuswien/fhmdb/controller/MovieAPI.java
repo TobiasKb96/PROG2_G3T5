@@ -22,7 +22,7 @@ public class MovieAPI {
 
         HttpUrl.Builder urlBuilder = new HttpUrl.Builder()
                 .scheme("https")
-                .host("prog2.h-campuswien.ac.at")
+                .host("prog2.fh-campuswien.ac.at")
                 .addPathSegment("movies");
 
 
