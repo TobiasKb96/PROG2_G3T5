@@ -65,8 +65,8 @@ public class HomeController implements Initializable, ExceptionHandler {
     {
         try {
             allMovies = Movie.initializeMovies();
-        } catch (MovieAPIException mai) {
-            handleException(mai);
+        } catch (MovieAPIException mae) {
+            handleException(mae);
             try {
                     allMovies = MovieEntity.toMovies(movieRepo.getAllMovies());
             }catch (DatabaseException dbe){
@@ -116,6 +116,7 @@ public class HomeController implements Initializable, ExceptionHandler {
 
         menuButton.setText("Menu");
     }
+    //TODO from movie funktion verwenden
     @FXML
     private void switch_to_watchlist() {
         List<Movie> watchlistMovieObjects = new ArrayList<>();

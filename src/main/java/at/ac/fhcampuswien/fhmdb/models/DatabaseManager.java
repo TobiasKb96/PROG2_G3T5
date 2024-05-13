@@ -19,7 +19,7 @@ public class DatabaseManager {
     private static DatabaseManager instance;
 
     //Establish connection, create dao and create table if not yet available
-    public DatabaseManager() throws DatabaseException {
+    private DatabaseManager() throws DatabaseException {
         try {
             createConnectionSource();
             movieDao = DaoManager.createDao(conn, MovieEntity.class);
